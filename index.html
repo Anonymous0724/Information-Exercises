@@ -1,0 +1,3152 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>情報処理演習課題</title>
+  <link href="example.css" rel="stylesheet" />
+  <script src="prism.js"></script>
+  <!--favicon-->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <link rel="icon" href="data:image/svg+xml,%3C%3Fxml version='1.0' encoding='iso-8859-1'%3F%3E%3Csvg version='1.1' id='Capa_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 194.675 194.675' style='enable-background:new 0 0 194.675 194.675;' xml:space='preserve'%3E%3Cstyle%3E path,rect,polygon %7B fill: black; %7D @media (prefers-color-scheme: dark) %7B path,rect,polygon %7B fill: white; %7D %7D %3C/style%3E%3Cg%3E%3Cg%3E%3Cpath d='M179.898,0H14.774C6.628,0,0.004,6.628,0.004,14.777v165.121c0,8.145,6.624,14.777,14.77,14.777h165.125c8.149,0,14.773-6.632,14.773-14.777V14.777C194.672,6.628,188.051,0,179.898,0z M14.774,9.316h165.125c3.013,0,5.451,2.452,5.451,5.461v17.476H9.312V14.777C9.312,11.767,11.764,9.316,14.774,9.316z M179.898,185.359H14.774c-3.01,0-5.461-2.455-5.461-5.461V41.565h176.04v138.33C185.352,182.908,182.911,185.359,179.898,185.359z'/%3E%3Crect x='136.34' y='13.911' width='11.062' height='11.062'/%3E%3Crect x='161.961' y='13.911' width='11.062' height='11.062'/%3E%3Cpolygon points='25.088,114.742 69.766,137.764 69.766,131.118 32.109,112.236 32.109,112.04 69.766,93.165 69.766,86.519 25.088,109.538 '/%3E%3Cpolygon points='75.134,155.587 81.591,155.587 115.55,71.781 108.997,71.781 '/%3E%3Cpolygon points='122.561,93.165 160.508,112.04 160.508,112.236 122.561,131.118 122.561,137.764 167.268,114.831 167.268,109.441 122.561,86.519 '/%3E%3C/g%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3Cg%3E%3C/g%3E%3C/svg%3E" type="image/svg+xml" />
+</head>
+
+<body>
+  <h1>情報処理演習課題</h1>
+  <div id="overlay" onclick="close_window()"></div>
+  <div class="window" id="window">
+    <span class="close_modal" onclick="close_window()"></span>
+    <div id="mihon_c" class="none_display_only">
+      <p class="text">見本.c</p>
+      <pre class="language-c line-numbers code_pre"><code>
+      /*
+      * 科目名:      情報処理演習
+      * 課題番号:    5
+      * ログイン名:  ks8999kk
+      * 学籍番号:    09C99000
+      * 氏名:        木曾 浩太郎
+      * 担当TA:      町金 山男
+      *
+      * 作成履歴:
+      * ※プログラムをどのような手順で作成したかを説明せよ．
+      * 1. 月と日を入力させる部分を作成した．
+      *    これをコンパイルし，正しく動作するのを確認．
+      * 2. １月の曜日を求めるようなプログラムに修正した．
+      *    １月の曜日が求められるのを確認した．
+      * 3. 各月の日数の配列を使ってどの月でも求められる
+      *    ようなプログラムに変更した．コンパイルすると，
+      *    変数 i がないというエラーが発生したので修正．
+      * 4. 日や月の値が大きすぎたり小さすぎたときに -1 を
+      *    返すように修正した．
+      * 5. 調べてみると，２月以降では曜日がずれる事が
+      *    分かった．２月なら１月の日数を加算するだけで
+      *    良いのに，２月の日数も加算してしまっていたのが
+      *    問題と分かり，for 文の条件を i &lt; m-1 に修正した．
+      * 6. 各月で正しく動作する事を確認して提出．
+      *
+      * 提出履歴:
+      * 20XX年11月17日
+      *      上記 4. の段階のものを提出．
+      * 20XX年11月20日
+      *      曜日がずれる事がある点を指摘され，5. の修正を
+      *      施して再提出．
+      *
+      * プログラムの動作説明:
+      * ※プログラムがどのように動作するか（命令が実行されるか）
+      * 　を説明せよ．
+      * 元旦からの経過日数を数えることで曜日を求めました．
+      * アルゴリズムは以下のようになっています．
+      * 1. 日数を数える変数 date を初期化する．
+      * 2. 前月までの日数を加算．例えば３月の曜日を調べる
+      *    場合なら，１月と２月の日数を date に加算する．
+      * 3. 前日までの日数を加算．例えば 4日を調べる
+      *    場合なら，3 を加算する．
+      * 4. 以上により元旦からの経過日数が date に加算される
+      *    ので，これを7で割った余りを求める事で曜日とする．
+      *
+      * 感想:
+      * 20XX年11月20日
+      * うるう年の場合など，どの年でも求められるように改良
+      * してみたいです．
+      * 
+      */
+
+      /* 実行結果：
+      * ※プログラムが正しく動作していることが確認できるよう，
+      * 　主要なパターンを複数示せ．
+      ＜パターン1＞
+      $ ./test
+      Input the month of year 2006.
+      3
+      Input the date of year 2006.
+      14
+      day is 2. (Sun = 0, Mon = 1, ..)
+      
+      ＜パターン2＞
+      $ ./test
+      Input the month of year 2006.
+      12
+      Input the date of year 2006.
+      31
+      day is 0. (Sun = 0, Mon = 1, ..)
+      
+      ＜パターン3＞
+      $ ./test
+      Input the month of year 2006.
+      6
+      Input the date of year 2006.
+      31
+      day is -1. (Sun = 0, Mon = 1, ..)
+      */
+     
+      /* プログラム：
+      * 重要な箇所には必ずコメントを入れること
+      */
+      #include &lt;stdio.h&gt;
+      
+      int main(void) {
+        int month, date, day;
+      
+        /* 2006年の月と日を入力させる */
+        printf(&quot;Input the month of year 2006.\n&quot;);
+        scanf(&quot;%d&quot;, &amp;month);
+        printf(&quot;Input the date of year 2006.\n&quot;);
+        scanf(&quot;%d&quot;, &amp;date);
+      
+        /* 月と日から曜日を求める関数を呼び出す */
+        day = day2006(month, date);
+        /* 曜日を出力する */
+        printf(&quot;day is %d. (Sun = 0, Mon = 1, ..)\n&quot;, day);
+      
+        return 0;
+      }
+      
+      /* それぞれの月の日数を記録した配列 */
+      int dayofmonth[12] = 
+      {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+      
+      /* 2006年の月と日から曜日を求める関数 */
+      /* 日曜日を 0, 月曜日を 1, ．．とする */
+      int day2006(int m, int d) {
+        int i, date;
+      
+        date = 0; /* 2006年1月1日は日曜日 */
+        
+        /* 月の数値がおかしい場合は -1 を返す */
+        if(m &lt;= 0 || m &gt; 12) {
+          return -1;
+        }
+        /* 日の数値がおかしい場合は -1 を返す */
+        if(d &lt;= 0 || d &gt; dayofmonth[m-1]) {
+          return -1;
+        }
+      
+        /* 前月までの日数を加算する */
+        for(i = 0; i &lt; m - 1; i++) {
+          date += dayofmonth[i];
+        }
+        /* その月の全日までの日数を加算する */
+        date += d - 1;
+        /* これにより，元旦からその日までの日数が */
+        /* date に求められた */
+        
+        /* 7 で割った余りにより曜日の数値に変換 */
+        return date % 7;
+      }</code></pre>
+    </div>
+    <div id="ex7_3_c" class="none_display_only">
+      <p class="text">example7_3.c</p>
+      <pre class="language-c line-numbers code_pre"><code>
+        /* 
+        * 配列に入力した要素から，目的の値をもつ要素を探索するプログラム．
+        * （逐次探索の実験．）
+        */
+        # include &lt;stdio.h&gt;
+        #define NUM 5
+        #define FAIL -1
+
+        int search(const int x[], int ky,  int n);
+
+        int main(void)
+        {
+            int  i, key, index;
+            int  data[NUM];
+
+            for(i = 0; i &lt; NUM; i++){
+                printf(&quot;data[%d] : &quot;, i);
+                scanf(&quot;%d&quot;, &amp;data[i]);
+            }
+            printf(&quot;探索したい値 : &quot;);
+            scanf(&quot;%d&quot;, &amp;key);
+
+            index = search( data, key, NUM);
+
+            if( index == FAIL)
+                printf(&quot;探索失敗！&quot;);
+            else
+                printf(&quot;%dは%d番目のデータです．\n&quot;, key,  index+1);
+
+            return 0;
+        }
+        int search(const int x[], int ky,  int n)
+        /* 配列xをconst宣言しているために，この関数内で配列 x[] に値を代入することはできない*/
+        {
+            int i =0;
+            while(1) {
+                if (i == n)
+                    return FAIL;
+                if (x[i] == ky)
+                    return i;
+                i++;
+            }
+        }</code></pre>
+    </div>
+    <div id="ex8_2_c" class="none_display_only">
+      <p class="text">example8_2.c</p>
+      <pre class="language-c line-numbers code_pre"><code>
+        #include &lt;stdio.h&gt;
+
+        int mygetline(char s[], int size);
+
+        int main(void)
+        {
+            char sei[20], mei[20];
+
+            printf(&quot;姓を入力して下さい &rarr; &quot;); mygetline(sei, 20);
+            printf(&quot;名を入力して下さい &rarr; &quot;); mygetline(mei, 20);
+
+            printf(&quot;あなたは %s %s さんですね．\n&quot;, sei, mei);
+
+            return 0;
+        }
+
+        /*
+        * 改行までキーボード入力を読み込んで改行直前までを文字列sに格納する．
+        * 改行がなくても，size-1文字読み込んだら，そこまでを文字列に格納し，処理を終了する．
+        * 戻り値は, 読み込んだ文字数をとする．
+        * 入力終了(EOF)を検知して文字を1文字も読み込めなかった場合は，-1を戻り値とする．
+        */
+        int mygetline(char s[], int size)
+        {
+            int         c, i;
+
+            for ( i = 0;  (c = getchar()) != EOF &amp;&amp; c != &#039;\n&#039; &amp;&amp; i &lt; size - 1; i++ ) {
+                s[i] = c;
+            }
+
+            s[i] = &#039;\0&#039;;
+
+            if ( c == EOF &amp;&amp; i == 0 ){
+                return -1;
+            }
+
+            return i;
+        }</code></pre>
+    </div>
+  </div>
+  <svg id="btn-mode" xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 -960 960 960"><path id="dark_svg" d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Zm0-80q88 0 158-48.5T740-375q-20 5-40 8t-40 3q-123 0-209.5-86.5T364-660q0-20 3-40t8-40q-78 32-126.5 102T200-480q0 116 82 198t198 82Zm-10-270Z"/><path id="light_svg" d="M480-360q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35Zm0 80q-83 0-141.5-58.5T280-480q0-83 58.5-141.5T480-680q83 0 141.5 58.5T680-480q0 83-58.5 141.5T480-280ZM80-440q-17 0-28.5-11.5T40-480q0-17 11.5-28.5T80-520h80q17 0 28.5 11.5T200-480q0 17-11.5 28.5T160-440H80Zm720 0q-17 0-28.5-11.5T760-480q0-17 11.5-28.5T800-520h80q17 0 28.5 11.5T920-480q0 17-11.5 28.5T880-440h-80ZM480-760q-17 0-28.5-11.5T440-800v-80q0-17 11.5-28.5T480-920q17 0 28.5 11.5T520-880v80q0 17-11.5 28.5T480-760Zm0 720q-17 0-28.5-11.5T440-80v-80q0-17 11.5-28.5T480-200q17 0 28.5 11.5T520-160v80q0 17-11.5 28.5T480-40ZM226-678l-43-42q-12-11-11.5-28t11.5-29q12-12 29-12t28 12l42 43q11 12 11 28t-11 28q-11 12-27.5 11.5T226-678Zm494 495-42-43q-11-12-11-28.5t11-27.5q11-12 27.5-11.5T734-282l43 42q12 11 11.5 28T777-183q-12 12-29 12t-28-12Zm-42-495q-12-11-11.5-27.5T678-734l42-43q11-12 28-11.5t29 11.5q12 12 12 29t-12 28l-43 42q-12 11-28 11t-28-11ZM183-183q-12-12-12-29t12-28l43-42q12-11 28.5-11t27.5 11q12 11 11.5 27.5T282-226l-42 43q-11 12-28 11.5T183-183Zm297-297Z"/></svg>
+  <details id="notes">
+    <summary>・注意事項</summary>
+    <p>必修課題で指示されるプログラムを作成し、そのプログラムと実行結果を提出する。</p>
+    <p>レポートは、以下で説明する「プログラムリスト」の後に、実行結果を記載したものをCLEを通じて提出する。</p>
+    <ul>
+      <li>プログラムリストの先頭には，<span class="modal_span"
+          onclick="open_window('mihon_c')">見本</span>と同じ形式で、C言語の注釈（コメント）として「科目名」「課題番号」「ログイン名」「学籍番号」「氏名」「担当TA」「作成履歴」「提出履歴」「プログラム説明」「感想」「実行結果」を必ず入れる。
+      </li>
+      <li>
+        「作成履歴」は出来るだけ詳細に、プログラム制作の過程や途中でつまづいた点（コンパイルエラーや実行時の不具合など）を記録・記載すること。少なくとも10行以上は書くように、ここが不十分なもの、不自然なものは再提出の対象となったり，事情を聞くことがある。
+      </li>
+      <li>「提出履歴」は、提出・再提出の日付と理由や段階を記入する事。特に再提出の場合はどのような指摘を受けて再提出となったのか、できるだけ詳しく書くこと。
+      </li>
+      <li>「プログラム説明」の項には、問題を解くための考え方や方法を書くこと。また，プログラムの途中の適切な場所にも注釈（コメント）としてプログラムの説明を入れる。
+      </li>
+      <li>プログラムは見やすいよう適切で正しい「段付け（インデント）」をして提出すること。見づらいプログラムは再提出の対象である。
+      </li>
+      <li>感想・質問についても、いつの時点の感想・質問なのか分かるように日付を入れること。
+      </li>
+      <li>なお、過去の履歴や感想・質問は消去しないこと。</li>
+    </ul>
+    <p><span class="span_red">履歴等を正しく書いていない場合も再提出</span>となることがあるので注意すること。
+    </p>
+  </details>
+  <div>
+    <div class="tab_area">
+      <label id="tab1_label"  for="tab1"  onclick="change_tab(1)">課題01</label>
+      <label id="tab2_label"  for="tab2"  onclick="change_tab(2)">課題02</label>
+      <label id="tab3_label"  for="tab3"  onclick="change_tab(3)">課題03</label>
+      <label id="tab4_label"  for="tab4"  onclick="change_tab(4)">課題04</label>
+      <label id="tab5_label"  for="tab5"  onclick="change_tab(5)">課題05</label>
+      <label id="tab6_label"  for="tab6"  onclick="change_tab(6)">課題06</label>
+      <label id="tab7_label"  for="tab7"  onclick="change_tab(7)">課題07</label>
+      <label id="tab8_label"  for="tab8"  onclick="change_tab(8)">課題08</label>
+      <label id="tab9_label"  for="tab9"  onclick="change_tab(9)">課題09</label>
+      <label id="tab10_label" for="tab10" onclick="change_tab(10)">課題10</label>
+      <label id="tab11_label" for="tab11" onclick="change_tab(11)">課題11</label>
+    </div>
+    <!--スマホ用プルダウン-->
+    <form method="post">
+      <div id="pulldown">
+        <label for="prefecture" class="selectbox-001">
+        <select id="select_pull" onchange="change_pulldown()">
+          <option>課題01</option>
+          <option>課題02</option>
+          <option>課題03</option>
+          <option>課題04</option>
+          <option>課題05</option>
+          <option>課題06</option>
+          <option>課題07</option>
+          <option>課題08</option>
+          <option>課題09</option>
+          <option>課題10</option>
+          <option>課題11</option>
+        </select>
+      </label>
+      </div>
+    </form>
+
+    <div class="panel_area">
+      
+      <div id="panel1" class="tab_panel"><!--課題01-->
+        <h3>必修課題</h3>
+        <details open class="kadai" id="kadai1-1">
+          <summary>課題1-1 (実数の受け取りと計算)</summary>
+          <p>3人の体重を入力すれば(キーボードから入力)， その平均体重を計算するプログラムを作成せよ．<br>実数を用いて値を受け取ること．また，必ず平均値の計算は実数で行うこと．</p>
+          <button onclick="answer_o('1_1')" class="open_button">解答例</button>
+          <div id="answer1_1" class="none_display">
+            <pre class="language-c line-numbers code_pre"><code>
+              // 入力・出力をするためのヘッダファイルstdio.h(Standard Input/Output)を読み込む
+              #include &lt;stdio.h&gt;
+              
+              // main関数にプログラムを記述する
+              int main(void)
+              {
+                  // double型(実数)でweight1~3を定義する
+                  double weight1, weight2, weight3;
+                  printf(&quot;3人の体重の平均を計算します。\n体重を入力してください。\n&quot;);
+                  // 体重の入力
+                  printf(&quot;一人目の体重：&quot;);
+                  scanf(&quot;%lf&quot;, &amp;weight1);    // double型の書式指定子は%lf
+                  printf(&quot;二人目の体重：&quot;);
+                  scanf(&quot;%lf&quot;, &amp;weight2);
+                  printf(&quot;三人目の体重：&quot;);
+                  scanf(&quot;%lf&quot;, &amp;weight3);
+                  printf(&quot;三人の平均体重は：%fkgです。\n\n&quot;, (weight1 + weight2 + weight3) / 3);
+                  return 0;
+              }</code></pre>
+          </div>
+        </details>
+        <details open class="kadai" id="kadai1-2">
+          <summary>課題1-2 (整数の受け取りと計算)</summary>
+          <p>1000円未満の商品を売った際に1000円札を渡された．<br>商品の値段(整数を使用)をキーボードから入力すれば，
+            最も硬貨の枚数が少ないおつりを計算するプログラムを作成せよ．<br>ただし，十分な種類と枚数の硬貨を持っているとし，おつりの計算には必ず余りの計算"%"を用いること．</p>
+          <button onclick="answer_o('1_2')" class="open_button">解答例</button>
+          <div id="answer1_2" class="none_display">
+            <pre class="language-c line-numbers code_pre"><code>
+              #include &lt;stdio.h&gt;
+
+              int main(void)
+              {
+                // 変数を整数型で定義
+                int price, change, fiveHun, oneHun, ten, five, one;
+                printf(&quot;お釣りを計算します。値段を入力してください。\n値段：&quot;);
+                // 値段の入力
+                scanf(&quot;%d&quot;, &amp;price);
+                // おつりを求める
+                change = 1000 - price;
+                // それぞれの硬貨の枚数を求める
+                fiveHun = change / 500;
+                oneHun = (change % 500) / 100;
+                ten = (change % 100) / 10;
+                five = (change % 10) / 5;
+                one = change % 5;
+
+                // 計算結果の出力
+                printf(&quot;計算結果\n500円玉：%d枚、100円玉：%d枚、10円玉：%d枚、5円玉：%d枚、1円玉：%d枚\n&quot;, fiveHun, oneHun, ten, five, one);
+                printf(&quot;おつりの枚数：%d枚&quot;, fiveHun + oneHun + ten + five + one);
+                return 0;
+              }
+              </code></pre>
+          </div>
+        </details>
+        <hr>
+        <h3>力試し課題</h3>
+        <details open class="kadai" id="kadai1-3">
+          <summary>課題1-3 (実数の受け取り，計算，数学関数)</summary>
+          <p>
+            直角をはさむ2辺の長さを入力すれば， その直角三角形の斜辺の長さを出力するプログラムを作成せよ（ピタゴラスの定理）．<br>なお，計算には実数を用いること． また，ルートの計算に数学関数
+            を用いる必要があることに注意せよ．
+          </p>
+          <button onclick="tips_o('1_3')" class="open_button">注意</button>
+          <button onclick="answer_o('1_3')" class="open_button">解答例</button>
+          <div id="hinto1_3" class="none_display">
+            <p>
+              数学関数を用いた場合，
+              プログラムの最初に「#include &lt;math.h&gt;」と書く.<br>
+                <small>　(システムで用意された math.h というファイルを読み込むための命令)</small><br>
+              コンパイルオプション -lmが必要であることに注意せよ．
+            </p>
+          </div>
+          <div id="answer1_3" class="none_display">
+            <pre class="language-c line-numbers code_pre"><code>
+              #include &lt;stdio.h&gt;
+              #include &lt;math.h&gt; // sqrt関数(平方根を計算)を用いるのに使う
+              
+              int main(void)
+              {
+                  double a, b, c;
+                  printf(&quot;直角をはさむ2辺の長さをcmで入力してください。\n1辺目：&quot;);
+                  scanf(&quot;%lf&quot;, &amp;a);
+                  printf(&quot;2辺目：&quot;);
+                  scanf(&quot;%lf&quot;, &amp;b);
+              
+                  c = sqrt( a * a + b * b);
+                  printf(&quot;斜辺の長さは%fcmです。&quot;, c);
+                  return 0;
+              }
+              </code></pre>
+          </div>
+        </details>
+      </div>
+      <div id="panel2" class="tab_panel"><!--課題02-->
+        <h3>必修課題</h3>
+        <details open class="kadai" id="kadai2-1">
+          <summary>課題2-1 (if文)</summary>
+          <p>西暦を受け取って，うるう年かどうか判定するプログラムを作成せよ．<br>ただし，うるう年は基本的に西暦が4で割り切れる年であるが，以下の例外がある．
+          </p>
+          <ul>
+            <li>100でも割り切れる年はうるう年ではない．</li>
+            <li>400でも割り切れる年はうるう年になる．</li>
+          </ul>
+          <button onclick="answer_o('2_1')" class="open_button">解答例</button>
+          <div id="answer2_1" class="none_display">
+            <pre class="language-c line-numbers code_pre"><code>
+              #include &lt;stdio.h&gt;
+
+              int main(void)
+              {
+                  int year;
+              
+                  // 年の入力
+                  printf(&quot;うるう年か判定します。年を西暦で入力してください。\n年：&quot;);
+                  scanf(&quot;%d&quot;, &amp;year);
+              
+                  // うるう年か判定
+                  if (year % 400 == 0){
+                      // 400で割り切れるとき
+                      printf(&quot;%d年はうるう年です。&quot;, year);
+                  }else if (year % 100 == 0){
+                      // 100で割り切れるとき
+                      printf(&quot;%d年はうるう年ではありません。&quot;, year);
+                  }else if (year % 4 == 0){
+                      // 4で割り切れるとき
+                      printf(&quot;%d年はうるう年です。&quot;, year);
+                  }else{
+                      // いずれでも割り切れないとき
+                      printf(&quot;%d年はうるう年ではありません。&quot;, year);
+                  }
+                  return 0;
+              }</code></pre>
+          </div>
+        </details>
+        <details open class="kadai" id="kadai2-2">
+          <summary>課題2-2 (if文)</summary>
+          <p>四つの実数値を読み込んで，その最大値と最小値を求めるプログラムを作成せよ．<br>ただし，不必要な比較を排したものとせよ．</p>
+          <button onclick="answer_o('2_2')" class="open_button">解答例</button>
+          <div id="answer2_2" class="none_display">
+            <pre class="language-c line-numbers code_pre"><code>
+            #include &lt;stdio.h&gt;
+
+            int main(void)
+            {
+                double num1, num2, num3, num4, max1, min1, max2, min2, max, min;
+            
+                printf(&quot;4つの実数の最大値と最小値を計算します。\n数字を入力してください。\n&quot;);
+                printf(&quot;1つ目：&quot;);
+                scanf(&quot;%lf&quot;, &amp;num1);
+                printf(&quot;2つ目：&quot;);
+                scanf(&quot;%lf&quot;, &amp;num2);
+                printf(&quot;3つ目：&quot;);
+                scanf(&quot;%lf&quot;, &amp;num3);
+                printf(&quot;4つ目：&quot;);
+                scanf(&quot;%lf&quot;, &amp;num4);
+            
+                // 1つ目と2つ目を比較し、大小を決定
+                if (num1 &gt; num2){
+                    max1 = num1;
+                    min1 = num2;
+                }else{
+                    max1 = num2;
+                    min1 = num1;
+                }
+            
+                // 3つ目と4つ目を比較し、大小を決定
+                if (num3 &gt; num4)
+                {
+                    max2 = num3;
+                    min2 = num4;}
+                else{
+                    max2 = num4;
+                    min2 = num3;
+                }
+            
+                // 最大値を決定
+                if (max1 &gt; max2){
+                    max = max1;
+                }else{
+                    max = max2;
+                }
+            
+                // 最小値を決定
+                if (min1 &lt; min2){
+                    min = min1;
+                }else{
+                    min = min2;
+                }
+            
+                printf(&quot;最大値は%f、最小値は%fです。&quot;, max, min);
+                return 0;
+            }</code></pre>
+          </div>
+        </details>
+        <hr>
+        <h3>力試し課題</h3>
+        <details open class="kadai" id="kadai2-3">
+          <summary>課題2-3</summary>
+          <p>
+            2次の方程式 ax<sup>2</sup> + bx + c = 0 の定数 a, b, c の値を読み込んで，
+            その解を回答するプログラムを作成せよ．</br>
+            判別式の値に応じてプログラムを制御し，虚数解を持つときもその解を回答できるようにすること．<br />
+            なお，a, b, c は実数値とし，a や b が 0 のときに対しても考慮しておくこと．
+          </p>
+          <button onclick="answer_o('2_3')" class="open_button">解答例</button>
+          <div id="answer2_3" class="none_display">
+            <pre class="language-c line-numbers code_pre"><code>
+            #include &lt;stdio.h&gt;
+            #include &lt;math.h&gt;
+            int main(void)
+            {
+                double a, b, c, D;
+                printf(&quot;2次の方程式ax^2+bx+c=0の解を求めます。\na,b,c,の値を入力してください。\na：&quot;);
+                scanf(&quot;%lf&quot;, &amp;a);
+                printf(&quot;b；&quot;);
+                scanf(&quot;%lf&quot;, &amp;b);
+                printf(&quot;c；&quot;);
+                scanf(&quot;%lf&quot;, &amp;c);
+                
+                if (a == 0){
+                    // 二次関数でない場合
+                    if (b == 0 &amp;&amp; c == 0){
+                        // a,b,cがすべて0の場合
+                        printf(&quot;解は任意の数&quot;);
+                    }else if (b == 0){
+                        // a,bが0の場合
+                        printf(&quot;解なし&quot;);
+                    }else{
+                        // aのみ0の場合
+                        printf(&quot;解は%fです。&quot;, -c / b);
+                    }
+                }else{
+                    // 二次関数の場合
+                    D = (b * b - 4 * a * c); // 判別式
+                    if (D &gt; 0){
+                        // 実数解を2つ持つ場合
+                        printf(&quot;解は%fと%fです。&quot;, (-b + sqrt(D)) / (2 * a), (-b - sqrt(D)) / (2 * a));
+                    }else if (D == 0){
+                        // 重解をもつ場合
+                        printf(&quot;解は%fです。&quot;, (-b) / (2 * a));
+                    }else{
+                        // 虚数解を持つ場合
+                        printf(&quot;解は%f&plusmn;&radic;%fiです。&quot;, (-b) / (2 * a), -D / (4 * a * a));
+                    }
+                }
+                
+                return 0;
+            }</code></pre>
+          </div>
+        </details>
+      </div>
+      <div id="panel3" class="tab_panel"><!--課題03-->
+        <h3>必修課題</h3>
+        <details open class="kadai" id="kadai3-1">
+          <summary>課題3-1 (多重ループ，printf文)</summary>
+          <p>
+            1から10までの整数について，それぞれの1乗から5乗までの値を以下に示すような数表として表示するプログラムを作成せよ．<br>
+            ただし，2重ループを必ず用いるとともに，<span class="span_red">表が崩れない</span>ようにすること．
+          </p>
+          <p>
+          <pre>
+     1      1      1      1      1
+     2      4      8     16     32
+     3      9     27     81    243
+     4     16     64    256   1024
+     5     25    125    625   3125
+     6     36    216   1296   7776
+     7     49    343   2401  16807
+     8     64    512   4096  32768
+     9     81    729   6561  59049
+    10    100   1000  10000 100000
+					</pre>
+          </p>
+          <button onclick="tips_o('3_1')" class="open_button">ヒント</button>
+          <button onclick="answer_o('3_1')" class="open_button">解答例</button>
+          <div id="hinto3_1" class="none_display">
+            <p>表が崩れないようにするには，printf文をうまく使う（以下参照）．<br>
+              ポイント: printf 関数の書式は、以下のように指定できる<br>
+              ・整数の場合:<br>
+              &emsp;"%[表示桁数]d"<br>
+              &emsp;表示桁数のスペースに整数を右詰めで表示する。<br>
+              &emsp;例&emsp;: printf("%4d\n", 12);<br>
+              &emsp;出力: [&ensp;&ensp;12]<br>
+              ・実数の場合:<br>
+              &emsp;"%[表示桁数].[小数点以下の桁数]f"<br>
+              &emsp;“表示桁数” のスペースに小数点以下を “小数点以下の桁数” に丸めて右詰めで表示する。<br>
+              &emsp;例&emsp;: printf( "[%6.2f]\n", 1.0/3.0 );<br>
+              &emsp;出力: [&ensp;&ensp;0.33]
+            </p>
+          </div>
+          <div id="answer3_1" class="none_display">
+            <pre class="language-c line-numbers code_pre"><code>
+              #include &lt;stdio.h&gt;
+              #include &lt;math.h&gt; // pow関数（累乗計算）を用いるのに使う
+              int main(void)
+              {
+                  for (int j = 1; j &lt;= 10; j++){
+                      for (int i = 1; i &lt;= 5; i++){
+                          // 幅7文字で右詰め
+                          printf(&quot;%7d&quot;, (int)pow(j, i));
+                      }
+                      printf(&quot;\n&quot;);
+                  }
+                  return 0;
+              }</code></pre>
+          </div>
+        </details>
+        <details open class="kadai" id="kadai4-2">
+          <summary>課題3-2 (if文，繰り返し処理)</summary>
+          <p>整数値 n (n >= 1)を読み込んで，その約数を列挙するプログラムを作成せよ．<br>なお，nが0以下の場合には約数を求めない旨を表示し，以降の処理を行わないこととする．</p>
+          <button onclick="answer_o('3_2')" class="open_button">解答例</button>
+          <div id="answer3_2" class="none_display">
+            <pre class="language-c line-numbers code_pre"><code>
+              #include &lt;stdio.h&gt;
+
+              int main(void)
+              {
+                  int n;
+                  printf(&quot;整数の約数を求めます。整数を入力してください。\n整数：&quot;);
+                  scanf(&quot;%d&quot;, &amp;n);
+
+                  if (n &lt; 1){
+                      printf(&quot;nが0以下なので約数を求めません。&quot;);
+                  }else{
+                      for (int i=1; i &lt; n; i++){
+                          // nがその数で割り切れたら約数
+                          if (n % i == 0){
+                              printf(&quot;%d, &quot;, i);
+                          }
+                      }
+                      printf(&quot;%d&quot;, n);
+                  }
+
+                  return 0;
+              }</code></pre>
+          </div>
+        </details>
+        <hr>
+        <h3>力試し課題</h3>
+        <details open class="kadai" id="kadai3-3">
+          <summary>課題3-3</summary>
+          <p>
+            半径１の円に内接する，2のn乗（ 2 ≦ n )正多角形は，n の値が大きくなると円に近づく<br>
+            正多角形の辺の長さを計算することで，円周率の近似値を算出するプログラムを作成せよ．
+          </p>
+          <svg id="svg_3_3" data-name="レイヤー 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 466.3885279 468.3936798"> <defs> <style> .cls-1 { font-family: HiraKakuProN-W3-90ms-RKSJ-H, 'Hiragino Kaku Gothic ProN'; font-size: 14px; } .cls-2, .cls-3 { stroke: #000; stroke-miterlimit: 10; } .cls-3 { fill: none; stroke-width: 2px; } </style> </defs> <text class="cls-1" transform="translate(-.0000305 273.716714)"><tspan x="0" y="0">(-1,0)</tspan></text> <text class="cls-1" transform="translate(244.9999695 462.716714)"><tspan x="0" y="0">(0,-1)</tspan></text> <text class="cls-1" transform="translate(237.9999695 37.716714)"><tspan x="0" y="0">(0,1)</tspan></text> <text class="cls-1" transform="translate(374.1783752 95.6254206)"><tspan x="0" y="0">(√2/2,√2/2)</tspan></text> <text class="cls-1" transform="translate(298.3319092 190.9324732)"><tspan x="0" y="0">(0.5,0.5)</tspan></text> <text class="cls-1" transform="translate(431.6152344 276.5867701)"><tspan x="0" y="0">(1,0)</tspan></text> <line id="x軸" class="cls-3" x1="6.9970703" y1="243.3914576" x2="456.9970703" y2="243.3914576"/> <line id="y軸" class="cls-3" x1="232.4970703" y1="468.3914576" x2="231.4970703" y2="18.3914576"/> <circle id="_円" data-name="円" class="cls-3" cx="231.9970703" cy="243.3914576" r="190"/> <polygon id="_四角形" data-name="四角形" class="cls-3" points="231.9971091 53.3914576 97.6468093 109.0411418 41.9970703 243.3914189 97.6467545 377.7417186 231.9970316 433.3914576 366.3473313 377.7417734 421.9970703 243.3914964 366.3473861 109.0411966 231.9971091 53.3914576"/> <rect id="_八角形" data-name="八角形" class="cls-3" x="97.6467819" y="109.0411692" width="268.7005769" height="268.7005769" transform="translate(-104.1533841 235.3345189) rotate(-45.0000187)"/> <polygon class="cls-2" points="231.2056349 1.4743116 238.2056515 20.8914576 224.2056292 20.8914677 231.2056349 1.4743116"/> <polygon class="cls-2" points="464.9142163 243.8914599 445.4970703 250.8914765 445.4970602 236.8914542 464.9142163 243.8914599"/> <line class="cls-3" x1="232.4970703" y1="242.8914576" x2="365.9970703" y2="109.3914576"/> <circle id="_点2" data-name="点2" class="cls-2" cx="366.4970703" cy="108.8914576" r="5"/> <circle id="_点1" data-name="点1" class="cls-2" cx="326.4970703" cy="147.8914576" r="5"/> </svg>
+          <br>
+           <button onclick="tips_o('3_3')" class="open_button">ヒント</button>
+           <button onclick="answer_o('3_3')" class="open_button">解答例</button>
+          <div id="hinto3_3" class="none_display">
+            <p>
+              まずは，正方形から考えてみよう．
+              <br>まず，xy座標上で，x軸，y軸上に頂点を持つような正方形を考える．<br>
+              この時の，各頂点の座標は，(1,0), (0,1), (-1,0), (0,-1)となる．<br>
+              各辺の長さは √2 なので，全部の辺の長さは 4√2である． 従って，2π（円周の長さ）の近似値は 4√2 と考えられる．<br><br>
+              
+              次に，正方形と頂点を共有する正八角形の頂点を求めることを考える．<br>
+              ただし，正多角形なので，１辺の長ささえ分かれば全辺の和を計算することができるので，(1,0)と(0,1)の間にできる新たな頂点をのみを考える．<br>
+              (1,0)と(0,1) の中点は，(0.5, 0.5)である．<br>
+              原点から(0.5, 0.5)までの距離は √2/2なので，(0.5, 0.5)を√2/2で割ると， 正8角形の新たな頂点(√2/2,√2/2) が求まり，(1,0）からの距離として 正8角形の1辺の長さを算出することが可能となる．<br>
+              <br>
+              同様にして，正8角形と頂点を共有する正16角形の(√2/2,√2/2)と(1,0）の間にある頂点を算出し，正16角形の1辺の長さを算出することができる． したがって，これを繰り返して，円周率の近似値を計算することができる．
+            </p>
+          </div>
+          <div id="answer3_3" class="none_display">
+            <pre class="language-c line-numbers code_pre"><code>
+              #include &lt;stdio.h&gt;
+              #include &lt;math.h&gt;
+
+              int main(void)
+              {
+                  double Npolygon, vertexX, vertexY, mid_pointX, mid_pointY, mid_length, ans_vertexX, ans_vertexY, polygon_length, ans_pi;
+                  int n = 24;
+
+                  printf(&quot;正多角形から円周率を近似します。\n数字が変化しなくなる正2^24角形まで近似します。\n&quot;);
+                  // 正方形の時の値を代入
+                  // 正方形の(1,0)ではない頂点の値を入れる
+                  vertexX = 0;
+                  vertexY = 1;
+
+                  // 初回は4角形から始める
+                  Npolygon = 4;
+
+                  for (int i = 1; i &lt;= n; i++)
+                  {
+                      // 中点を求める
+                      mid_pointX = (vertexX + 1.0) / 2.0;
+                      mid_pointY = vertexY / 2.0;
+                      // 原点と中点の長さを求める
+                      mid_length = sqrt(pow(mid_pointX, 2.0) + pow(mid_pointY, 2.0));
+                      // 原点と中点を通る直線上で、原点との長さが1の点を求める
+                      ans_vertexX = mid_pointX / mid_length;
+                      ans_vertexY = mid_pointY / mid_length;
+                      // 求めた点と(1,0)との長さが、多角形の1辺の長さになる
+                      polygon_length = sqrt(pow((1 - ans_vertexX), 2.0) + pow(ans_vertexY, 2.0));
+                      // 近似の円周率を求める
+                      ans_pi = (polygon_length * Npolygon);
+
+                      // 近似で出した円周率を小数14桁まで表示（double型の精度が15桁までだから
+                      printf(&quot;%8d角形での近似 &pi; = %.14f\n&quot;, (int)Npolygon, ans_pi);
+                      // 次の頂点の値を変更
+                      vertexX = ans_vertexX;
+                      vertexY = ans_vertexY;
+                      // 次のn角形のnを2倍する
+                      Npolygon *= 2;
+                  }
+                  printf(&quot;近似で求めた円周率   &pi; = %.14f \n&quot;, ans_pi);
+                  return 0;
+              }
+            </code></pre>
+          </div>
+        </details>
+      </div>
+      <div id="panel4" class="tab_panel"><!--課題04-->
+        <h3>必修課題</h3>
+        <details open class="kadai" id="kadai4-1">
+          <summary>課題4-1(ループとif文)</summary>
+          <p>N 円の借金がある.年利 a % の利息が付くとして,毎年 b 円返済したなら何年で返済できるか計算するプログラムを作成せよ.<br>(N, a, b
+            はキーボードから入力する)<br>ただし、無限ループに陥らないように工夫すること.<br>
+            また,利息は返済前にかかるとせよ.なお,利子による端数（1円未満の利子）は切り捨てること.
+          </p>
+          <button onclick="tips_o('4_1')" class="open_button">ヒント</button>
+          <button onclick="answer_o('4_1')" class="open_button">解答例</button>
+          <div id="hinto4_1" class="none_display">
+            <p>ある年の借金の残金が，前年の残金より多ければ，いつまでも返済できずに無限ループとなる．</p>
+          </div>
+          <div id="answer4_1" class="none_display">
+            <pre class="language-c line-numbers code_pre"><code>
+              #include &lt;stdio.h&gt;
+
+              int main(void)
+              {
+                  int N, b, years = 0;
+                  double a;
+              
+                  printf(&quot;借金が何年で返せるか計算します。\n現在の借金を入力してください。\n借金：&quot;);
+                  scanf(&quot;%d&quot;, &amp;N);
+                  printf(&quot;年利を入力してください。\n年利：&quot;);
+                  scanf(&quot;%lf&quot;, &amp;a);
+                  printf(&quot;毎年返済できる額を入力してください。\n金額：&quot;);
+                  scanf(&quot;%d&quot;, &amp;b);
+              
+                  if (N * a * 0.01 &gt;= b){
+                      // 借金が返済できない場合
+                      printf(&quot;あなたは借金を返済することができません。&quot;);
+                  }else{
+                      while (N &gt; 0){
+                          // 利息をつける
+                          N = N * (1 + a * 0.01);
+                          // 払う金額を引く
+                          N -= b;
+                          years++;
+                      }
+                      printf(&quot;あなたは%d年で借金を返済できます。&quot;, years);
+                  }
+                  return 0;
+              }</code></pre>
+          </div>
+        </details>
+        <details open class="kadai" id="kadai4-2">
+          <summary>課題4-2(ループとif文)</summary>
+          <p>数学関数を用いずに√2 の近似値を算出するプログラムを作成せよ．</p>
+          <button onclick="tips_o('4_2')" class="open_button">ヒント</button>
+          <button onclick="answer_o('4_2')" class="open_button">解答例</button>
+          <div id="hinto4_2" class="none_display">
+            <p>1&lt; √2 &lt; 2 が分かっている．<br>
+              まず、1と2の中点 1.5 について考える．<br>
+              1.5 <sup>2</sup>と 2 の比較から <br>1&lt; √2 &lt;1.5<br></p>
+            <p>次に、1と1.5の中点 1.25 について考える．<br>1.25 <sup>2</sup>と 2 の比較から <br>
+              1.25 &lt; √2 &lt;1.5<br></p>
+            <p>そして、1.25 と1.5の中点 1.375 について考える．<br>1.375 <sup>2</sup>と 2 の比較から <br>
+              1.375 &lt; √2 &lt;1.5<br>．．．．．<br>これを続けて行く．<br>
+              ．．．．．<br>a &lt; √2 &lt; b<br>|b-a| &lt; 10<sup>-5</sup>となれば (a+b)/2を近似値として計算をやめる．
+            </p>
+          </div>
+          <div id="answer4_2" class="none_display">
+            <pre class="language-c line-numbers code_pre"><code>
+              #include &lt;stdio.h&gt;
+
+              int main(void)
+              {
+                  double edge_small = 1, edge_big = 2, mid_point;
+                  while (edge_big - edge_small &gt;= 0.000001)
+                  {
+                      /*中点を求める*/
+                      mid_point = (edge_small + edge_big) / 2;
+                      if (mid_point * mid_point &gt;= 2)
+                      {
+                          /*中点が&radic;2より大きい場合*/
+                          edge_big = mid_point;
+                      }
+                      else
+                      {
+                          /*中点が&radic;2より小さい場合*/
+                          edge_small = mid_point;
+                      }
+                  }
+                  printf(&quot;&radic;2の近似値=%f\n&quot;, (edge_small + edge_big) / 2);
+                  return 0;
+              }
+            </code></pre>
+          </div>
+        </details>
+        <hr>
+        <h3>力試し課題</h3>
+        <details open class="kadai" id="kadai4-3">
+          <summary>課題4-3</summary>
+          <p>
+            整数 n を入力して、n 以下の自然数の組 (a, b, c)の中で、<br>
+            a<sup>2</sup> + b<sup>2</sup> = c<sup>2</sup> <br>
+            を満たすものを見つける。<br>
+            繰り返し処理による総当りで条件を満足するものを探す。ただし、明らかに 無駄な処理を避けるために、繰り返しの範囲を工夫する。<br>
+            例えば、a と b の対称性や、c &gt; b であることを利用する。見つかった (a, b, c) の組みはprintfを使って出力し、
+            見つかった全ての整数の組の数を printf() で表示する．
+          </p>
+          <button onclick="tips_o('4_3')" class="open_button">ヒント</button>
+          <button onclick="answer_o('4_3')" class="open_button">解答例</button>
+          <div id="hinto4_3" class="none_display">
+            <p>
+              以下に、a, b の値を変えていって、c が a<sup>2</sup> +b<sup>2</sup> = c<sup>2</sup> を満たすかどうか検証する方法を示す。
+              他にも、a, c (あるいは b, c ) の値を変える方法も考えられる。<br>
+              a &lt;= b &lt; cとする。<br></p>
+            <ol>
+              <li>a=1の時、1&lt;= b &lt;c の範囲で b を検証。a<sup>2</sup> + b<sup>2</sup>がc<sup>2</sup>を越えたら次のaの値へ。
+              </li>
+
+              <li>a=2の時、2&lt;= b &lt;c の範囲で b を検証。a<sup>2</sup> + b<sup>2</sup>がc<sup>2</sup>を越えたら次のaの値へ。
+              </li>
+            </ol>
+            <p>…繰り返し…<br>aは、どこまで探索すれば良いか？<br>
+              例えば、n=5の時
+            </p>
+            <p class="sage">a=1の時、(b=1, c=なし)、(b=2, c=なし)、(b=3, cなし)、(b=4, c=なし)<br>
+              a=2の時、(b=2, c=なし)、(b=3, c=なし)、(b=4, cなし)<br>
+              a=3の時、(b=3, c=なし)、(b=4, c=5)<br>
+              a=4は計算しなくて良い（4<sup>2</sup>+4<sup>2</sup> &gt; 5<sup>2</sup>)<br>
+              よって、解は(a=3, b=4, c=5)
+            </p>
+          </div>
+          <div id="answer4_3" class="none_display">
+            <pre class="language-c line-numbers code_pre"><code>
+              #include &lt;stdio.h&gt;
+              #include &lt;math.h&gt;
+
+              int main (void){
+                  int a,b,c,n,qua=0;
+                  double k;/*kは&radic;(a^2+b^2)*/
+                  printf(&quot;自然数nを入力してください\nn：&quot;);
+                  scanf(&quot;%d&quot;,&amp;n);
+                  printf(&quot;整数の組=&quot;);
+                  for(a=1;a&lt;=(n/sqrt(2));a++){
+                      for(b=a;b&lt;=(n-1);b++){
+                          k=sqrt(a*a+b*b);
+                          c=k;
+                          if(c==k &amp;&amp; c&lt;=n){
+                              printf(&quot;(%d,%d,%d), &quot;,a,b,c);
+                              qua++;
+                          }
+                      }
+                  }
+                  printf(&quot;\n整数の組み合わせは%d個です。&quot;,qua);
+                  return 0;
+              }</code></pre>
+          </div>
+        </details>
+      </div>
+      <div id="panel5" class="tab_panel"><!--課題05-->
+        <h3>必修課題</h3>
+        <details open class="kadai" id="kadai5-1">
+          <summary>課題5-1(関数を作ってみる)</summary>
+          <p>
+            二つの<span class="span_red">実数</span>を読み込んで,
+            その相加平均と相乗平均を表示するプログラムを作成せよ．<br>
+            ただし，二つの実数を引数とし相加平均を戻り値として返す関数，ならびに，二つの実数を引数とし相乗平均を戻り値として返す関数を，それぞれ作成し用いること．
+          </p>
+            <button onclick="tips_o('5_1')" class="open_button">ヒント</button>
+            <button onclick="answer_o('5_1')" class="open_button">解答例</button>
+            <div id="hinto5_1" class="none_display">
+              <p>実数を引数としているので，当然戻り値も...</p>
+            </div>
+            <div id="answer5_1" class="none_display">
+              <pre class="language-c line-numbers code_pre"><code>
+                #include &lt;stdio.h&gt;
+                #include &lt;math.h&gt;
+
+                double souka(double num1,double num2){
+                    return (num1+num2)/2;
+                }
+
+                double soujyou(double num1,double num2){
+                    return sqrt(num1*num2);
+                }
+
+                int main(void){
+                    double a,b;
+                    printf(&quot;相加平均と相乗平均を求めます。\n２つの実数を入力してください。\n１つ目：&quot;);
+                    scanf(&quot;%lf&quot;,&amp;a);
+                    printf(&quot;２つ目：&quot;);
+                    scanf(&quot;%lf&quot;,&amp;b);
+                    printf(&quot;相加平均は%f、相乗平均は%fです。&quot;,souka(a,b),soujyou(a,b));
+                    return 0;
+                }</code></pre>
+            </div>
+        </details>
+        <details open class="kadai" id="kadai5-2">
+          <summary>課題5-2（自作した関数をループの中で使う）</summary>
+          <p>
+            二つの整数 (例えば n, m)を引数とし，一行にn個の空白(スペース)と
+            m 個の N の文字を表示し，その後改行する関数
+            (例ではこれをprintn関数としている)
+            を作成し，この関数を用いて，
+            下記に示すような直角三角形と菱形を表示するプログラムを作成せよ．
+            以下に出力例とそれを出力するためのプログラムの一部を示す．
+            なお，例では分かりやすいように printn 関数を並べているが，
+            実際のプログラムでは，
+            <span class="span_red">繰り返し処理（ループ）</span>等を用いよ．
+          </p>
+          <pre>
+	[ 出力例1 ]           [ 出力例2 ]    
+	直角二等辺三角形         菱形
+	
+	NNNNNNNNN                N
+	NNNNNNNN                NNN
+	NNNNNNN                NNNNN
+	NNNNNN                NNNNNNN
+	NNNNN                NNNNNNNNN
+	NNNN                  NNNNNNN
+	NNN                    NNNNN
+	NN                      NNN
+	N                        N
+	
+	[ program例1 ]        [ program例2 ]    
+	printn(0,9);          printn(5,1);
+	printn(0,8);          printn(4,3);
+	printn(0,7);          printn(3,5);
+	printn(0,6);          printn(2,7);
+	printn(0,5);          printn(1,9);
+	printn(0,4);          printn(2,7);
+	printn(0,3);          printn(3,5);
+	printn(0,2);          printn(4,3);
+	printn(0,1);          printn(5,1);
+				</pre>
+        <button onclick="answer_o('5_2')" class="open_button">解答例</button>
+            <div id="answer5_2" class="none_display">
+              <pre class="language-c line-numbers code_pre"><code>
+                #include &lt;stdio.h&gt;
+
+                void printn(int n,int m){
+                    for(int i=0; i&lt;n;i++)
+                        printf(&quot; &quot;);
+                    for(int j=0; j&lt;m;j++)
+                        printf(&quot;N&quot;);
+                    printf(&quot;\n&quot;);
+                }
+
+                int main(void){
+                    int a;
+                    printf(&quot;直角二等辺三角形もしくはひし形を出力します。\n三角形の場合は1、ひし形の場合は2を入力してください。\n1or2：&quot;);
+                    scanf(&quot;%d&quot;,&amp;a);
+                    if(a == 1){
+                        for(int i=9;i&gt;=1;i--)
+                            printn(0,i);
+                    }else if (a == 2){
+                        for(int i=1;i&lt;=5;i++)
+                            printn(6-i,i*2-1);
+                        for(int i=2;i&lt;=5;i++)
+                            printn(i,11-2*i);
+                    }
+                    return 0;
+                }
+              </code></pre>
+            </div>
+        </details>
+        <hr>
+        <h3>力試し課題</h3>
+        <details open class="kadai" id="kadai5-3">
+          <summary>課題5-3</summary>
+          <p>
+            正の整数値が入力されたとき，入力された数字の順番を逆に出力するプログラムを作成せよ．<br>
+            ただし，<span class="span_red">整数を引数とし，数字の順番を逆転させた整数を戻り値とする関数を用いること．</span><br>
+            なお，負の整数値が入力された場合はその旨を表示し，再度入力できるようにせよ(正の整数が入力された場合は，数値を出力し終了する)．<br>
+            また，最初にゼロが入力された場合は無視してよい．
+          <p class="sage">[例]<br>
+            123 &nbsp;　→　321　[終了]<br>
+            0987　→　789　[終了]<br>
+            -123&nbsp;　→　再度入力してください.<br>
+          </p>
+          <button onclick="tips_o('5_3')" class="open_button">ヒント</button>
+          <button onclick="answer_o('5_3')" class="open_button">解答例</button>
+          <div id="hinto5_3" class="none_display">
+            <p>余りの計算 "%" をうまく用いる</p>
+          </div>
+          <div id="answer5_3" class="none_display">
+            <pre class="language-c line-numbers code_pre"><code>
+              #include &lt;stdio.h&gt;
+
+              int reverse(int number){
+                  int x=0;
+                  while (number &gt; 0) {
+                      x = x * 10 + number % 10;
+                      number /= 10;
+                  }
+                  return x;
+              }
+
+              int main(void){
+                  int n;
+                  printf(&quot;自然数を入力してください。\n数字：&quot;);
+                  scanf(&quot;%d&quot;,&amp;n);
+                  while(n&lt;0){
+                      printf(&quot;値を再入力してください。\n数字：&quot;);
+                      scanf(&quot;%d&quot;,&amp;n);
+                  }
+                  printf(&quot;逆転した値は%dです。&quot;,reverse(n));
+                  return 0;
+              }</code></pre>
+            </div>
+        </details>
+      </div>
+      <div id="panel6" class="tab_panel"><!--課題06-->
+        <h3>必修課題</h3>
+        <details open class="kadai" id="kadai6-1">
+          <summary>課題6-1(配列と比較)</summary>
+          <p>
+            以下は，ある8つの都道府県における，現在の人口と10年前の人口である（単位は百万人）．
+          </p>
+          <div class="container">
+          <table>
+            <tbody>
+              <tr>
+                <th class="tate">都道府県</th>
+                <th>1</th>
+                <th>2</th>
+                <th>3</th>
+                <th>4</th>
+                <th>5</th>
+                <th>6</th>
+                <th>7</th>
+                <th>8</th>
+              </tr>
+              <tr>
+                <th class="tate">現在の人口</th>
+                <td>5.628</td>
+                <td>2.360</td>
+                <td>12.577</td>
+                <td>7.255</td>
+                <td>8.817</td>
+                <td>2.877</td>
+                <td>1.468</td>
+                <td>5.050</td>
+              </tr>
+              <tr>
+                <th class="tate">10年前の人口</th>
+                <td>5.382</td>
+                <td>2.334</td>
+                <td>13.515</td>
+                <td>7.483</td>
+                <td>8.839</td>
+                <td>2.844</td>
+                <td>1.385</td>
+                <td>5.102</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+          <p>
+            配列を用いて，以下の質問に解答例るようなプログラムを作成せよ．<br>
+            ただし，上に示したデータだけでなく，<span class="span_red">計算機で表すことができる値ならどのような値（非常に大きい値や小さい値）であっても正しい解答ができる</span>
+            ，汎用性のあるプログラムとせよ．また，配列データを破壊しないこと．<br>
+          </p>
+          <ol>
+            <li>現在の人口が最も多い都道府県</li>
+            <li>10年前に人口が最も少なかった都道府県</li>
+            <li>10年間で人口の増加が最も大きかった都道府県</li>
+          </ol>
+          <p>
+            なお，複数回答ある場合（現在の人口が最も多い都道府県が，2つある場合等）は，そのうちの1つが回答できれば良い．
+          </p>
+          <button onclick="answer_o('6_1')" class="open_button">解答例</button>
+          <div id="answer6_1" class="none_display">
+            <pre class="language-c line-numbers code_pre"><code>
+              #include &lt;stdio.h&gt;
+
+              int main(void) {
+                  /*現在の人口、10年前の人口の順*/
+                  double data[8][2] = { {5.628,5.382},{2.360,2.334},{12.577,13.515},{7.255,7.483},{8.817,8.839},{2.877,2.844},{1.468,1.385},{5.050,5.102} };
+                  /*現在人口が最も多い都道府県*/
+                  double now_max = data[0][0];
+                  int now_max_code = 1;
+                  for (int i = 1; i &lt;= 7; i++) {
+                      if (data[i][0] &gt; now_max) {
+                          now_max = data[i][0];
+                          now_max_code = i+1;
+                      }
+                  }
+                  printf(&quot;現在人口がもっとも大きい都道府県は%dです。\n&quot;, now_max_code);
+              
+                  /*10年前に人口が最も少なかった都道府県*/
+                  double old_min = data[0][1];
+                  int old_min_code = 1;
+                  for (int i = 1; i &lt;= 7; i++) {
+                      if (data[i][1] &lt;= old_min ) {
+                          old_min = data[i][1];
+                          old_min_code = i+1;
+                      }
+                  }
+                  printf(&quot;10年前に人口がもっとも少なかった都道府県は%dです。\n&quot;, old_min_code);
+              
+                  /*10年間で人口増加が最も大きかった都道府県*/
+                  double popu_incre = data[0][0]-data[0][1];
+                  int popu_incre_code = 1;
+                  for (int i = 1; i &lt;= 7; i++) {
+                      if ((data[i][0]-data[i][1]) &gt; popu_incre ) {
+                          popu_incre = data[i][0]-data[i][1];
+                          popu_incre_code = i+1;
+                      }
+                  }
+                  printf(&quot;10年間で人口増加が最も大きかった都道府県は%dです。&quot;, popu_incre_code);
+                  return 0;
+              }</code></pre>
+          </div>
+        </details>
+        <details open class="kadai" id="kadai6-2">
+          <summary>課題6-2（配列データの入れ替え）</summary>
+          <p>
+            以下のアルゴリズムに従い，入力したデータを，大きさの順に<span class="span_red">配列の中身を並び替える</span>プログラムを作成せよ．<br>
+            なお，以下の例では 配列の要素数を5とし，5つのデータの並び替えを行っているが，<span class="span_red">要素数をマクロ定義することで，データ数が変わってもマクロ定義を変えるだけで対応できるようにすること．</span></p>
+          <ol>
+            <li>5個のデータを，キーボードから入力．これらを一次元配列 a[0], a[1], ---a[4]に代入．</li>
+            <li>a[0] と，a[1], a[2], a[3], a[4]の大きさを，ループを使って逐次比較していく．<br>
+              ただし，もし a[0] &lt; a[i] (1 &lt; = i &lt; = 4)であれば，その時点で，a[0] と a[i] の値を交換する．</li>
+            <li>a[1] と，a[i] (2 &lt;= i &lt;= 4) についても，同様の比較，交換を行う．</li>
+            <li>a[2] と，a[i] (i = 3　または 4)につていも，同様の比較，交換をおこなう．</li>
+            <li>a[3] と，a[i] (i = 4)についても，同様．</li>
+            <li>a[0], a[1], ---, a[4] を画面に出力する．</li>
+          </ol>
+          <button onclick="answer_o('6_2')" class="open_button">解答例</button>
+          <div id="answer6_2" class="none_display">
+            <pre class="language-c line-numbers code_pre"><code>
+              #include &lt;stdio.h&gt;
+              #define ELEMENT 5 // 要素数を定義する。 マクロ名は基本大文字
+              
+              int main(void){
+                  double a[ELEMENT], n; // 置き換え用の変数
+                  printf(&quot;%dつの数字を入力してください。\n&quot;,ELEMENT);
+                  for (int i=0;i&lt;=(ELEMENT-1);i++){
+                      printf(&quot;%dつ目：&quot;,i+1);
+                      scanf(&quot;%lf&quot;,&amp;a[i]);
+                  }
+                  // ここから数字の比較（バブルソート）二重繰り返し文を使う
+                  for(int j=0;j&lt;=(ELEMENT-2);j++){
+                      for(int k=j+1;k&lt;=(ELEMENT-1);k++){
+                          if(a[j]&lt;a[k]){
+                              n=a[j];
+                              a[j]=a[k];
+                              a[k]=n;
+                          }
+                      }
+                  }
+                  for(int i=0;i&lt;=(ELEMENT-1);i++)
+                      printf(&quot;a[%d]=%f\n&quot;,i,a[i]);
+                  return 0;
+              }</code></pre>
+          </div>
+        </details>
+        <hr>
+        <h3>力試し課題</h3>
+        <details open class="kadai" id="kadai6-3">
+          <summary>課題6-3</summary>
+          <p>
+            素数を小さいものから順に1000個求めて配列に格納し，出力するプログラムを作成せよ．<br>
+            ただし，ある整数が素数かどうか判定するにあたって，割り算の回数がなるべく少なくなるように工夫せよ．<br>
+            なお，<span class="span_red">求める素数の個数はマクロ定義することで，より多く（あるいは少なく）素数を求めたい場合でもマクロ定義を変えるだけで対応できるようにすること．</span><br>
+            また，求める素数の個数はとても大きくなりうる．例えば「10000以下の正の整数について素数かどうか調べる」ような，汎用性に問題が生じるような条件を設けないこと．<br>
+          </p>
+          <button onclick="tips_o('6_3')" class="open_button">ヒント</button>
+          <button onclick="answer_o('6_3')" class="open_button">解答例</button>
+          <div id="hinto6_3" class="none_display">
+            <p>ある正の整数nが素数であるか判定するには，1から√nまでの素数で割り切れるかどうか確かめればよい．<br>
+              例えば99が素数であるか判定するには，1から9（√99 = 9.9...）までの素数である2, 3, 5, 7で割り切れるかどうか確かめればよい<br>
+              （小さいものから順に素数をもれなく求めれば，nが素数であるか判定する時には，nより小さい素数はすべて配列に格納されている）．<br>
+              しかも，3で割り切れた時点で99は素数ではないことがわかるので，5, 7で割り切れるかどうかは試さなくてもよい．</p>
+          </div>
+          <div id="answer6_3" class="none_display">
+            <pre class="language-c line-numbers code_pre"><code>
+              #include &lt;stdio.h&gt;
+              #include &lt;math.h&gt;
+              #define ELEMENTS 1000 // マクロ定義
+              
+              int main (void){
+                  int primeNum[ELEMENTS];  // 素数の配列の定義
+                  primeNum[0]=2;           // 最初の素数である2だけ配列に代入する
+                  int prime_count =1;      // 配列に入っている素数の数を表す変数
+                  int result;              // 素数かどうかを調べる変数 初期値が0で、割り切れた時に1を代入
+                  for(int num=3; prime_count&lt;ELEMENTS;num++){
+                      // 素数の個数がELEMENTSと同じになるまで繰り返す
+                      int i=0; 
+                      int rootNum=(int)sqrt(num);    // 調べる数のルートをint型に入れておく
+                      result=0;                      // resultを初期化
+                      // 調べる数が素数かどうかを調べる
+                      while(primeNum[i]&lt;=rootNum){
+                          // より小さい素数で調べる数が割り切れるか調べる
+                          if((num % primeNum[i]) == 0){
+                              // 割り切れる場合は調べるのをやめる
+                              result=1;    // 割り切れたので1を代入 判断に使う
+                              break;       // breakでwhile文を終わらす
+                          }else{
+                              i++;        // 割り切れなかった場合、iに1を足して次の素数へ
+                          }
+                      }
+                      // 素数かを判定
+                      // result=0だと素数、1だと割り切れ素数ではない
+                      if(result==0){
+                          primeNum[prime_count]=num;
+                          prime_count++;
+                      }
+                  }
+                  // 素数の一覧を出力
+                  printf(&quot;%d個の素数を出力します\n&quot;,ELEMENTS);
+                  for (int j=0; j&lt;=(ELEMENTS-2); j++){
+                      printf(&quot;%d, &quot;,primeNum[j]);
+                  }
+                  printf(&quot;%d&quot;,primeNum[ELEMENTS-1]);
+                  return 0;
+              }</code></pre>
+          </div>
+        </details>
+      </div>
+      <div id="panel7" class="tab_panel"><!--課題07-->
+        <h3>必修課題</h3>
+        <details open class="kadai" id="kadai7-1">
+          <summary>課題7-1</summary>
+          <p>
+            int型配列とその要素数Nを渡されると，配列の並びを逆順にする関数を用いたプログラムを作成せよ．<br>
+            ただし，int型配列の並びを逆順にする関数内で新たに配列を用意しないこと．
+            また，main 関数内で用意する配列の大きさは，マクロ定義であらかじめ決めておいて良いが，<br>
+            関数自体はNが正の整数ならなんら変更しなくても良いような汎用性のあるものとすること．
+          </p>
+          <p>
+            動作例:<br>
+            引数に要素数 N と，配列 a[] を関数に渡すと，以下のように配列の中身を入れ替える関数を作成する．
+          </p>
+          <p class="sage">
+            a[0] → a[N-1]<br>
+            a[1] → a[N-2]<br>
+            &emsp;&emsp;&emsp;:<br>
+            &emsp;&emsp;&emsp;:<br>
+            a[N-2] → a[1]<br>
+            a[N-1] → a[0]<br>
+          </p>
+          </pre>
+          <button onclick="answer_o('7_1')" class="open_button">解答例</button>
+          <div id="answer7_1" class="none_display">
+            <pre class="language-c line-numbers code_pre"><code>
+              #include &lt;stdio.h&gt;
+              #define ELEMENT 5
+              void reverse(int a[],int N){
+                  int X; // 変換用
+                  for(int i=0;i&lt;=(N/2);i++){
+                      X=a[N-i-1];
+                      a[N-i-1]=a[i];
+                      a[i]=X;
+                  }
+              }
+              
+              int main(void){
+                  printf(&quot;%d個の数字を入力してください。\n&quot;,ELEMENT);
+                  int array[ELEMENT];
+                  for(int i=0;i&lt;ELEMENT;i++){
+                      printf(&quot;%d個目：&quot;,i+1);
+                      scanf(&quot;%d&quot;,&amp;array[i]);
+                  }
+                  reverse(array,ELEMENT);
+                  // 出力部分
+                  for(int j=0;j&lt;=(ELEMENT-1);j++){
+                      printf(&quot;a[%d]=%d, &quot;,j,array[j]);
+                  }
+                  return 0;
+              }</code></pre>
+          </div>
+        </details>
+        <details open class="kadai" id="kadai7-2">
+          <summary>課題7-2</summary>
+          <p><a onclick="change_tab(6)">課題6-1</a>を配列を引数とした関数を使ったプログラムとせよ．<br>
+            ただし，関数は現在の人口が最も多い都道府県，10年前に人口が最も少なかった都道府県，
+            10年間で人口の増加が最も大きかった都道府県（を表す番号）をそれぞれ<span class="span_red">戻値</span>
+            として返す関数を作成すること．<br>
+            なお，複数回答ある場合（現在の人口が最も多い都道府県が，2つある場合等）は，
+            そのうちの1つが回答できれば良い．
+            <br>
+            また，データ数も引数とし，配列の大きさに関係なく回答可能な，
+            汎用性のある関数とせよ．
+          </p>
+          <button onclick="answer_o('7_2')" class="open_button">解答例</button>
+          <div id="answer7_2" class="none_display">
+            <pre class="language-c line-numbers code_pre"><code>
+              #include &lt;stdio.h&gt;
+
+              // プロトタイプ宣言
+              int fun1(const double data[][2] ,int n);
+              int fun2(const double data[][2] ,int n);
+              int fun3(const double data[][2] ,int n);
+              
+              int main(void) {
+                  // 現在の人口、10年前の人口の順
+                  double data[8][2] = { {5.628,5.382},{2.360,2.334},{12.577,13.515},{7.255,7.483},{8.817,8.839},{2.877,2.844},{1.468,1.385},{5.050,5.102} };
+                  printf(&quot;現在人口がもっとも大きい都道府県は%dです。\n&quot;,fun1(data,8));
+                  printf(&quot;10年前に人口がもっとも少なかった都道府県は%dです。\n&quot;,fun2(data,8));
+                  printf(&quot;10年間で人口増加が最も大きかった都道府県は%dです。&quot;,fun3(data,8));
+                  return 0;
+              }
+              
+              // 現在人口が最も大きい都道府県
+              int fun1(const double data[][2] ,int n){
+                  double now_max = data[0][0];
+                  int now_max_code = 1;
+                  for (int i = 1; i &lt; n; i++) {
+                      if (data[i][0] &gt; now_max) {
+                          now_max = data[i][0];
+                          now_max_code = i+1;
+                      }
+                  }
+                  return now_max_code;
+              }
+              // 10年前に人口が最も少なかった都道府県
+              int fun2(const double data[][2] ,int n){
+                  double old_min = data[0][1];
+                  int old_min_code = 1;
+                  for (int i = 1; i &lt; n; i++) {
+                      if (data[i][1] &lt;= old_min ) {
+                          old_min = data[i][1];
+                          old_min_code = i+1;
+                      }
+                  }
+                  return old_min_code;
+              }
+              // 10年間で人口増加が最も大きかった都道府県
+              int fun3(const double data[][2] ,int n){
+                  double popu_incre = data[0][0]-data[0][1];
+                  int popu_incre_code = 1;
+                  for (int i = 1; i &lt; n; i++) {
+                      if ((data[i][0]-data[i][1]) &gt; popu_incre ) {
+                          popu_incre = data[i][0]-data[i][1];
+                          popu_incre_code = i+1;
+                      }
+                  }
+                  return popu_incre_code;
+              } 
+            </code></pre>
+          </div>
+        </details>
+        <hr>
+        <h3>力試し課題</h3>
+        <details open class="kadai" id="kadai7-3">
+          <summary>課題7-3</summary>
+          <p><span class="modal_span" onclick="open_window('ex7_3_c')">example7_3.c</span>のプログラムで，探索するキーと同じデータをわざと配列の最後尾に追加（番兵）すれば，キーに一致するデータがなくても番兵で終了すれば終了判定をよりスマートに記述できる．<br>example7_3.cのプログラムに番兵を適用して書き改めよ．</p>
+          <button onclick="answer_o('7_3')" class="open_button">解答例</button>
+          <div id="answer7_3" class="none_display">
+            <pre class="language-c line-numbers code_pre"><code>
+              #include &lt;stdio.h&gt;
+              #define NUM 5
+              #define FAIL -1
+              
+              int search(int x[], int ky,  int n);
+              
+              int main(void){
+                  int  i, key, index;
+                  int  data[NUM];
+              
+                  for(i = 0; i &lt; NUM; i++){
+                      printf(&quot;data[%d] : &quot;, i);
+                      scanf(&quot;%d&quot;, &amp;data[i]);
+                  }
+                  printf(&quot;探索したい値 : &quot;);
+                  scanf(&quot;%d&quot;, &amp;key);
+              
+                  index = search(data, key, NUM);
+              
+                  if( index == NUM)
+                       printf(&quot;探索失敗！&quot;);
+                  else
+                       printf(&quot;%dは%d番目のデータです。\n&quot;, key,  index+1);
+                  return 0;
+              }
+              
+              int search(int x[], int ky,  int n){
+                  int i;
+                  // 探索したい値を最後尾に追加
+                  x[n]=ky;
+                  // 配列の何番目にデータがあるか探索
+                  for (i=0; x[i] != ky;i++);
+                  return i;
+              }</code></pre>
+          </div>
+        </details>
+      </div>
+      <div id="panel8" class="tab_panel"><!--課題08-->
+        <h3>必修課題</h3>
+        <details open class="kadai" id="kadai8-1">
+          <summary>課題8-1</summary>
+          <p>文字列をキーボードから受け取り，その文字列の中の小文字を大文字に，大文字を小文字に変換し，表示するプログラムを作成せよ．<br>ただし，</p>
+          <ol>
+            <li>文字列をキーボードから受け取る関数には，text8の<span class="modal_span" onclick="open_window('ex8_2_c')">example8_2.c</span>に示した mygetline 関数を用いる.</li>
+            <li>mygetlineとは別に，<span class="span_bold">引数として文字列</span>を受け取り，その文字列の中の小文字を大文字に，大文字を小文字に変換し，戻値として変換した文字数を返すような<span class="span_red">関数</span>を作成する.</li>
+          </ol>
+          <button onclick="tips_o('8_1')" class="open_button">ヒント</button>
+          <button onclick="answer_o('8_1')" class="open_button">解答例</button>
+          <div id="hinto8_1" class="none_display">
+            <p>アスキーコードでは，0x41,0x42, --- 0x5aまでが大文字のアルファベット A,B --- Zに対応し，0x61,0x62, --- 0x7a が小文字のアルファベットに対応する．</p>
+          </div>
+          <div id="answer8_1" class="none_display">
+            <pre class="language-c line-numbers code_pre"><code>
+              #include &lt;stdio.h&gt;
+              #define STRLEN 50
+              
+              // プロトタイプ宣言
+              int mygetline(char s[], int size);
+              int convert(char s[],int size);
+              
+              int main(void){
+                  char str[STRLEN];
+                  int size_char, convert_times; // 入力文字数と入れ替えた数字の関数
+                  printf(&quot;文字列を入力してください。\n&quot;);
+                  size_char = mygetline(str, STRLEN);
+                  convert_times = convert(str, size_char);
+                  printf(&quot;出力結果は %s で、変換回数は%dです。\n&quot;, str,convert_times);
+                  return 0;
+              }
+              
+              // 大文字と小文字を入れ替える関数
+              int convert(char s[],int size){
+                  int times=0; // 交換回数
+                  for (int i=0;i&lt;=size-1; i++) {
+                      if(s[i]&gt;=0x61 &amp;&amp; s[i]&lt;=0x7a){
+                          //小文字の場合大文字に変換
+                          s[i]-=32;
+                          times++;
+                      }else if(s[i]&gt;=0x41 &amp;&amp; s[i]&lt;=0x5a){
+                          //大文字の場合小文字に変換
+                          s[i]+=32;
+                          times++;
+                      }
+                  }
+                  return times;
+              }
+              
+              // example8_2.cのmygetline関数 入力した文字数を返す
+              int mygetline(char s[], int size){
+                  int c,i;
+                  for ( i=0; (c=getchar())!=EOF &amp;&amp; c!=&#039;\n&#039; &amp;&amp; i&lt;size-1; i++)
+                      s[i] = c;
+                  s[i] = &#039;\0&#039;;
+                  if ( c == EOF &amp;&amp; i == 0 )
+                      return -1;
+                  return i;
+              }</code></pre>
+          </div>
+        </details>
+        <details open class="kadai" id="kadai8-2">
+          <summary>課題8-2</summary>
+          <p>
+            文字列をキーボードから受け取り，その文字列の順を逆に変換し，表示するプログラムを作成せよ．<br>
+            ただし，</p>
+          <ol>
+            <li>文字列をキーボードから受け取る関数には，text8の<span class="modal_span" onclick="open_window('ex8_2_c')">example8_2.c</span>に示した mygetline 関数を用いる.</li>
+            <li>mygetlineとは別に，<span class="span_bold">引数として文字列一つ</span>を受け取り，文字列を逆転し，
+              戻値として文字列の文字数を返すような<span class="span_red">関数</span>を作成する
+            </li>
+          </ol>
+          <p>
+            例えば，文字列s を引数として渡せば，sの中身を下記のように逆転する．</p>
+          <p class="sage">
+            s: "This is a pen."<br>
+            &emsp;&emsp;&emsp;↓<br>
+            s: ".nep a si sihT"<br>
+            戻り値: 14
+          </p>
+          <button onclick="answer_o('8_2')" class="open_button">解答例</button>
+          <div id="answer8_2" class="none_display">
+            <pre class="language-c line-numbers code_pre"><code>
+              #include &lt;stdio.h&gt;
+
+              // プロトタイプ宣言
+              int reverse(char s[], int size);
+              int mygetline(char s[], int size);
+              
+              int main (void){
+                  char str[30];
+                  printf(&quot;文字列を入力してください\n&quot;);
+                  int size = mygetline(str,30);
+                  int returnValue = reverse(str,size);
+                  printf(&quot;逆転した文字列は%sで、戻値は%dです。&quot;,str,returnValue);
+                  return 0;
+              }
+              
+              // 文字列を逆に変換する　戻値は文字数
+              int reverse (char s[], int size){
+                int i,n;
+                for ( i=0; i&lt;=((int)(size/2)-1); i++ ){
+                  n=s[i];
+                  s[i] = s[size-1-i];
+                  s[size-1-i] =n;
+                }
+                return size;
+              }
+              
+              // example8_2.cのmygetline関数 入力した文字数を返す
+              int mygetline(char s[], int size){
+                  int c,i;
+                  for ( i=0; (c=getchar())!=EOF &amp;&amp; c!=&#039;\n&#039; &amp;&amp; i&lt;size-1; i++)
+                      s[i] = c;
+                  s[i] = &#039;\0&#039;;
+                  if ( c == EOF &amp;&amp; i == 0 )
+                      return -1;
+                  return i;
+              }</code></pre>
+          </div>
+        </details>
+        <hr>
+        <h3>力試し課題</h3>
+        <details class="sage">
+          <summary>注意事項</summary>
+          <p class="sage">
+            必ず各課題に対応した<span class="span_bold">関数</span>を使ったプログラムを作成してください．<br>
+            ただし，</p>
+          <li class="sage">s? は文字列を表し，添字が同じものは同一の配列を表し，全て引数として関数に渡されること．</li>
+          <li class="sage">例以外の入力に対しても正しく動作するプログラムを作成すること．</li>
+          <li class="sage">作成した関数内で<span class="span_bold">作業用に新たに文字配列用意しないこと．</span></li>
+          <li class="sage">strlen, strcpy, sprintf 等の文字列を扱う関数を使用しないこと．</li>
+          <p class="sage">
+            なお，解答に対して十分に大きな要素数の配列を用意して，関数に渡して下さい．(解答を入れる配列の要素数も引数として渡し，要素数を越えて解答しなければならない場合には処理を中止して
+            -1を戻値として返すような関数とすれば安全な関数となる．)
+          </p>
+        </details>
+        <br>
+
+        <details open class="kadai" id="kadai8-3">
+          <summary>課題8-3</summary>
+          <p>
+            文字列sの中の各単語の先頭の文字を大文字に，それ以後の文字を小文字に置き換える．<br>
+            関数の戻り値は，文字列中の単語の数とする．ここで，単語とは，
+            'A'～'Z'と'a'～'z'だけで構成される1つ以上の文字の連なりと定義する．
+          </p>
+          <p class="sage">
+            s: "This is a PEN. ABC123def,ghI"<br>
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;↓<br>
+            s: "This Is A Pen. Abc123Def,Ghi"<br>
+            戻り値: 7
+          </p>
+          <button onclick="answer_o('8_3')" class="open_button">解答例</button>
+          <div id="answer8_3" class="none_display">
+            <pre class="language-c line-numbers code_pre"><code>
+              #include &lt;stdio.h&gt;
+              #define MAX_CHAR 50
+              
+              // プロトタイプ宣言
+              int mygetline(char s[], int size);
+              int countWord (char s[],int size);
+              
+              int main (void){
+                  char s[MAX_CHAR];
+                  printf(&quot;文字列を入力してください。\n&quot;);
+                  int size=mygetline(s,MAX_CHAR);
+                  int words=countWord(s,size);
+                  printf(&quot;変更後の文字列は%sで、単語数は%dです。&quot;,s,words);
+                  return 0;
+              }
+              
+              
+              int countWord (char s[],int size){
+                  int i, j, charCount=0, wordCount=0;
+                  for (i=0;i&lt;=size-1;i++){
+                      if((s[i]&gt;=97 &amp;&amp; s[i]&lt;=122)||(s[i]&gt;=65 &amp;&amp; s[i]&lt;=90)){
+                          // 大文字・小文字の時
+                          charCount++;
+                      }else{
+                          if(charCount&gt;0){
+                              wordCount++;
+                          }
+                          charCount=0;
+                      }
+                      if(charCount==1 &amp;&amp; s[i]&gt;=97 &amp;&amp; s[i]&lt;=122){
+                          // 単語のはじめかつ小文字
+                          s[i]-=32;
+                      }else if(charCount!=1 &amp;&amp; s[i]&gt;=65 &amp;&amp; s[i]&lt;=90){
+                          // 単語の途中かつ大文字
+                          s[i]+=32;
+                      }
+                  }
+                  if(charCount&gt;0)
+                      wordCount++;
+                  return wordCount;
+              }
+              
+              // example8_2.cのmygetline関数 入力した文字数を返す
+              int mygetline(char s[], int size){
+                  int c,i;
+                  for ( i=0; (c=getchar())!=EOF &amp;&amp; c!=&#039;\n&#039; &amp;&amp; i&lt;size-1; i++)
+                      s[i] = c;
+                  s[i] = &#039;\0&#039;;
+                  if ( c == EOF &amp;&amp; i == 0 )
+                      return -1;
+                  return i;
+              }
+            </code></pre>
+          </div>
+        </details>
+        <details open class="kadai" id="kadai8-4">
+          <summary>課題8-4</summary>
+          <p>
+            文字列sの内容をn回繰り返した文字列でsを置き換える．関数の戻り値は，置き換えた後の文字列sの全文字数とする．
+          </p>
+          <p class="sage">
+            s: "This is a pen."<br>
+            n: 3<br>
+            &emsp;&emsp;&emsp;↓<br>
+            s: "This is a pen.This is a pen.This is a pen."<br>
+            戻り値: 42
+          </p>
+          <button onclick="answer_o('8_4')" class="open_button">解答例</button>
+          <div id="answer8_4" class="none_display">
+            <pre class="language-c line-numbers code_pre"><code>
+              #include &lt;stdio.h&gt;
+              #define MAX_CHAR 150
+              
+              // プロトタイプ宣言
+              int mygetline(char s[], int size);
+              int roop(char s[],int size,int roopCount);
+              
+              int main(void){
+                  char s[MAX_CHAR];
+                  int roopCount;
+                  printf(&quot;文字列を入力してください。\n&quot;);
+                  int size = mygetline(s, MAX_CHAR);
+                  printf(&quot;繰り返し回数を入力してください。\n&quot;);
+                  scanf(&quot;%d&quot;,&amp;roopCount);
+                  int result = roop(s, size,roopCount);
+                  printf(&quot;出力結果は %s で、戻り値は%dです。\n&quot;, s,result);
+                  return 0;
+              }
+              
+              
+              int roop(char s[],int size,int roopCount){
+                  int c;
+                  for (int i=0;i&lt;=size-1;i++) {
+                      for (int j=1;j&lt;=(roopCount-1);j++){
+                          s[size*j+i]=s[i];
+                      }
+                  }
+                  return size*roopCount;
+              }
+              
+              // example8_2.cのmygetline関数 入力した文字数を返す
+              int mygetline(char s[], int size){
+                  int c,i;
+                  for ( i=0; (c=getchar())!=EOF &amp;&amp; c!=&#039;\n&#039; &amp;&amp; i&lt;size-1; i++)
+                      s[i] = c;
+                  s[i] = &#039;\0&#039;;
+                  if ( c == EOF &amp;&amp; i == 0 )
+                      return -1;
+                  return i;
+              }
+            </code></pre>
+          </div>
+        </details>
+      </div>
+      <div id="panel9" class="tab_panel"><!--課題09-->
+        <h3>必修課題</h3>
+        <details open class="kadai" id="kadai9-1">
+          <summary>課題9-1</summary>
+          <p>
+            文字列s1，s2をキーボードから受取り，文字列s1から文字列s2に含まれる文字を取り除いたものを文字列s3に格納し，その内容を表示するプログラムを作成せよ．<br>
+            ただし，</p>
+          <ol>
+            <li>文字列をキーボードから受け取る関数には，text8の<span class="modal_span" onclick="open_window('ex8_2_c')">example8_2.c</span>に示した mygetline 関数を用いる.</li>
+            <li>mygetlineとは別に，<span class="span_bold">引数として文字列3つ</span>を受け取り，上記の操作を行った後，戻値として<span class="span_bold">取り除いた文字数</span>を返すような<span class="span_red">関数</span>を作成する．
+            </li>
+          </ol>
+          <p>例えば，文字列s1，s2，s3を引数として渡せば，s3の中身を下記のように書き換える．</p>
+          <p class="sage">
+            s1: "This is a pen."<br>
+            s2: "sp."<br>
+            &emsp;&emsp;↓<br>
+            s3: "Thi i a en"<br>
+            戻り値: 4
+          </p>
+          <button onclick="answer_o('9_1')" class="open_button">解答例</button>
+          <div id="answer9_1" class="none_display">
+            <pre class="language-c line-numbers code_pre"><code>
+              #include &lt;stdio.h&gt;
+              #define MAX_LENGTH 100
+              
+              int delete(const char s1[], const char s2[], char s3[], int s1_len, int s2_len);
+              int mygetline(char s[], int len);
+              
+              int main(void){
+                  char s1[MAX_LENGTH], s2[MAX_LENGTH], s3[MAX_LENGTH];
+                  int s1_len, s2_len, removed_char;
+                  printf(&quot;文字列s1を入力してください: &quot;);
+                  s1_len = mygetline(s1, MAX_LENGTH);
+                  printf(&quot;文字列s2を入力してください: &quot;);
+                  s2_len = mygetline(s2, MAX_LENGTH);
+                  removed_char = delete (s1, s2, s3, s1_len, s2_len);
+                  printf(&quot;出力結果：%s \n戻り値:%d&quot;, s3, removed_char);
+              }
+              
+              int delete(const char s1[], const char s2[], char s3[], int s1_len, int s2_len){
+                  int judge = 0, removed_char = 0, s3_len = 0;
+                  for (int i = 0; i &lt; s1_len; i++){
+                      judge = 0; // 判定の初期化
+                      for (int j = 0; j &lt; s2_len; j++){
+                          if (s1[i] == s2[j]){
+                              judge = 1;
+                              removed_char++;
+                              break;
+                          }
+                      }
+                      if (judge == 0){
+                          s3[s3_len] = s1[i];
+                          s3_len++;
+                      }
+                  }
+                  s3[s3_len] = &#039;\0&#039;;//終端文字
+                  return removed_char;
+              }
+              
+              int mygetline(char s[], int size){
+                  int c,i;
+                  for ( i=0; (c=getchar())!=EOF &amp;&amp; c!=&#039;\n&#039; &amp;&amp; i&lt;size-1; i++)
+                      s[i] = c;
+                  s[i] = &#039;\0&#039;;
+                  if ( c == EOF &amp;&amp; i == 0 )
+                      return -1;
+                  return i;
+              }
+            </code></pre>
+          </div>
+        </details>
+        <details open class="kadai" id="kadai9-2">
+          <summary>課題9-2</summary>
+          <p>
+            文字列s1，s2および自然数nをキーボードから受取り，文字列s1の位置nに文字列s2の内容を挿入したものを文字列s3に格納し，その内容を表示するプログラムを作成せよ．なお，文字の位置は先頭を0とする．<br>
+            ただし，
+          </p>
+          <ol>
+            <li> 文字列をキーボードから受け取る関数には，text8の<span class="modal_span" onclick="open_window('ex8_2_c')">example8_2.c</span>に示した mygetline 関数を用いる.</li>
+            <li>mygetlineとは別に，<span class="span_bold">引数として文字列3つと自然数n</span>を受け取り，上記の操作を行った後，戻値として<span class="span_bold">文字列s3の全文字数</span>を返すような<span class="span_red">関数</span>を作成する．
+            </li>
+          </ol>
+          <p>例えば，文字列s1，s2，s3を引数として渡せば，s3の中身を下記のように書き換える．</p>
+          <p class="sage">
+            s1: "This is a pen."<br>
+            n: 13<br>
+            s2: "cil"<br>
+            &emsp;&emsp;↓<br>
+            s3: "This is a pencil."<br>
+            戻り値: 17
+            </pre></p>
+            <button onclick="answer_o('9_2')" class="open_button">解答例</button>
+            <div id="answer9_2" class="none_display">
+              <pre class="language-c line-numbers code_pre"><code>
+                #include &lt;stdio.h&gt;
+                #define MAX_LENGTH 100
+                
+                int insert(char s1[], char s2[], char s3[], int n);
+                int mygetline(char s[], int size);
+                
+                int main(void){
+                    char s1[MAX_LENGTH], s2[MAX_LENGTH], s3[MAX_LENGTH];
+                    int n;
+                    printf(&quot;文字列s1を入力してください: &quot;);
+                    mygetline(s1, MAX_LENGTH);
+                    printf(&quot;自然数nを入力してください: &quot;);
+                    scanf(&quot;%d&quot;, &amp;n);
+                    printf(&quot;文字列s2を入力してください: &quot;);
+                    mygetline(s2, MAX_LENGTH);
+                    int s3_len = insert(s1, s2, s3, n);
+                    printf(&quot;出力結果：%s \n戻り値:%d&quot;, s3, s3_len);
+                }
+                
+                int insert(char s1[], char s2[], char s3[], int n){
+                    int i, j;
+                    // s1をs3にコピー
+                    for (i = 0; s1[i] != &#039;\0&#039;; i++){
+                        s3[i] = s1[i];
+                    }
+                    // s2をs3のn番目の位置に挿入
+                    for (j = 0; s2[j] != &#039;\0&#039;; j++){
+                        s3[n + j] = s2[j];
+                    }
+                    // s1のn番目以降の文字をs3にコピー
+                    for (int k = n; s1[k] != &#039;\0&#039;; k++){
+                        s3[k + j] = s1[k];
+                    }
+                    s3[i + j] = &#039;\0&#039;; //終端文字
+                    return i + j;
+                }
+                
+                int mygetline(char s[], int size){
+                    int c,i;
+                    for ( i=0; (c=getchar())!=EOF &amp;&amp; c!=&#039;\n&#039; &amp;&amp; i&lt;size-1; i++)
+                        s[i] = c;
+                    s[i] = &#039;\0&#039;;
+                    if ( c == EOF &amp;&amp; i == 0 )
+                        return -1;
+                    return i;
+                }
+              </code></pre>
+            </div>
+        </details>
+        <hr>
+        <h3>力試し課題</h3>
+        <details class="sage">
+          <summary>注意事項</summary>
+          <p class="sage">
+            必ず各課題に対応した<span class="span_bold">関数</span>を使ったプログラムを作成してください．<br>
+            ただし，</p>
+          <li class="sage">s? は文字列を表し，添字が同じものは同一の配列を表し，全て引数として関数に渡されること．</li>
+          <li class="sage">例以外の入力に対しても正しく動作するプログラムを作成すること．</li>
+          <li class="sage">作成した関数内で<span class="span_bold">作業用に新たに文字配列用意しないこと．</span></li>
+          <li class="sage">strlen, strcpy, sprintf 等の文字列を扱う関数を使用しないこと．</li>
+          <p class="sage">
+            なお，解答に対して十分に大きな要素数の配列を用意して，関数に渡して下さい．(解答を入れる配列の要素数も引数として渡し，要素数を越えて解答しなければならない場合には処理を中止して-1を戻値として返すような関数とすれば安全な関数となる．)
+          </p>
+        </details>
+        <br>
+
+        <details open class="kadai" id="kadai9-3">
+          <summary>課題9-3</summary>
+          <p>
+            文字列sに含まれる文字'A'～'Z'と'a'～'z'を以下のような規則で置き換える(Rot13と呼ばれる素朴な暗号化である)．
+          </p>
+          <p class="sage">
+            'A' → 'N'&emsp;&emsp;&emsp;'a' → 'n'<br>
+            'B' → 'O'&emsp;&emsp;&emsp;'b' → 'o'<br>
+            &ensp;:&emsp;&emsp;&nbsp;:&emsp;&emsp;&emsp;&emsp;:&emsp;&emsp;&nbsp;:<br>
+            'M' → 'Z'&emsp;&emsp;&emsp;'m' → 'z'<br>
+            'N' → 'A'&emsp;&emsp;&emsp;'n' → 'a'<br>
+            'O' → 'B'&emsp;&emsp;&emsp;'o' → 'b'<br>
+            &ensp;:&emsp;&emsp;&nbsp;:&emsp;&emsp;&emsp;&emsp;:&emsp;&emsp;&nbsp;:<br>
+            'Z' → 'M'&emsp;&emsp;&emsp;'z' → 'm'<br>
+            関数の戻り値は，文字列sの全文字数とする．<br>
+            s: "This is a PEN. ABC123def,ghI"<br>
+            &emsp;&emsp;↓<br>
+            s: "Guvf vf n CRA. NOP123qrs,tuV"<br>
+            戻り値: 28
+          </p>
+          <button onclick="tips_o('9_3')" class="open_button">ヒント</button>
+          <button onclick="answer_o('9_3')" class="open_button">解答例</button>
+          <div id="hinto9_3" class="none_display">
+            <p>'A'を'N'に変換するには数値として13を足せば，'N'を'A'にするには13を引けばよい．</p>
+          </div>
+          <div id="answer9_3" class="none_display">
+            <pre class="language-c line-numbers code_pre"><code>
+              #include &lt;stdio.h&gt;
+              #define MAX_LENGTH 100
+              
+              int encrypt(char s[]);
+              int mygetline(char s[], int size);
+              
+              int main(void){
+                  char s[MAX_LENGTH];
+                  printf(&quot;文字列を入力してください。\n&quot;);
+                  mygetline(s, MAX_LENGTH);
+                  int s_len = encrypt(s);
+                  printf(&quot;出力結果：%s \n戻り値:%d&quot;, s, s_len);
+                  return 0;
+              }
+              
+              int encrypt(char s[]){
+                  int i;
+                  for (i = 0; s[i] != &#039;\0&#039;; i++){
+                      if (s[i] &gt;= 0x41 &amp;&amp; s[i] &lt;= 0x4d){
+                          //&#039;A&#039;~&#039;M&#039; &rarr; &#039;N&#039;~&#039;Z&#039;
+                          s[i] += 0x0d;
+                      }
+                      else if (s[i] &gt;= 0x4e &amp;&amp; s[i] &lt;= 0x5a){
+                          //&#039;N&#039;~&#039;Z&#039; &rarr; &#039;A&#039;~&#039;M&#039;
+                          s[i] -= 0x0d;
+                      }
+                      else if (s[i] &gt;= 0x61 &amp;&amp; s[i] &lt;= 0x6d){
+                          //&#039;a&#039;~&#039;m&#039; &rarr; &#039;n&#039;~&#039;z&#039;
+                          s[i] += 0x0d;
+                      }
+                      else if (s[i] &gt;= 0x6e &amp;&amp; s[i] &lt;= 0x7a){
+                          //&#039;n&#039;~&#039;z&#039; &rarr; &#039;a&#039;~&#039;m&#039;
+                          s[i] -= 0x0d;
+                      }
+                  }
+                  return i;
+              }
+              
+              int mygetline(char s[], int size){
+                  int c,i;
+                  for ( i=0; (c=getchar())!=EOF &amp;&amp; c!=&#039;\n&#039; &amp;&amp; i&lt;size-1; i++)
+                      s[i] = c;
+                  s[i] = &#039;\0&#039;;
+                  if ( c == EOF &amp;&amp; i == 0 )
+                      return -1;
+                  return i;
+              }
+            </code></pre>
+          </div>
+        </details>
+        <details open class="kadai" id="kadai9-4">
+          <summary>課題9-4</summary>
+          <p>
+            文字列s1の内容のうち，単語だけを文字列s2に格納する．その際，単語ごとの終りに'|'を付加する．関数の戻り値は，全ての単語数とする．<br>
+            ここで，単語とは，'A'～'Z'と'a'～'z'だけで構成される1つ以上の文字の連なりと定義する．
+          </p>
+          <p class="sage">
+            s1: "This is a PEN. ABC123def,ghI"<br>
+            &emsp;&emsp;&emsp;&emsp;↓<br>
+            s2: "This|is|a|PEN|ABC|def|ghI|"<br>
+            戻り値: 7
+          </p>
+          <button onclick="answer_o('9_4')" class="open_button">解答例</button>
+          <div id="answer9_4" class="none_display">
+            <pre class="language-c line-numbers code_pre"><code>
+              #include &lt;stdio.h&gt;
+              #define MAX_LENGTH 100
+              
+              int mygetline(char s1[], int size);
+              int countword(char s1[], char s2[]);
+              
+              int main(void){
+                  char s1[MAX_LENGTH], s2[MAX_LENGTH];
+                  printf(&quot;文字列を入力してください。\n&quot;);
+                  mygetline(s1, MAX_LENGTH);
+                  int words = countword(s1, s2);
+                  printf(&quot;変更後の文字列：%s \n戻り値:%d&quot;, s2, words);
+                  return 0;
+              }
+              
+              int countword(char s1[], char s2[]){
+                  int prev_char = 0, words = 0, s2_len = 0;
+                  for (int i = 0; s1[i] != &#039;\0&#039;; i++){
+                      if ((s1[i] &gt;= 0x41 &amp;&amp; s1[i] &lt;= 0x5a) || (s1[i] &gt;= 0x61 &amp;&amp; s1[i] &lt;= 0x7a)){
+                          // 英文字の時
+                          s2[s2_len] = s1[i];
+                          s2_len++;
+                          prev_char = 1;
+                      }else{
+                          if (prev_char == 1){
+                              s2[s2_len] = &#039;|&#039;;
+                              s2_len++;
+                              words++;
+                          }
+                          prev_char = 0;
+                      }
+                  }
+                  if (prev_char == 1){
+                      words++;
+                      s2[s2_len] = &#039;|&#039;;
+                  }
+                  return words;
+              }
+              
+              int mygetline(char s[], int size){
+                  int c,i;
+                  for ( i=0; (c=getchar())!=EOF &amp;&amp; c!=&#039;\n&#039; &amp;&amp; i&lt;size-1; i++)
+                      s[i] = c;
+                  s[i] = &#039;\0&#039;;
+                  if ( c == EOF &amp;&amp; i == 0 )
+                      return -1;
+                  return i;
+              }
+            </code></pre>
+          </div>
+        </details>
+      </div>
+      <div id="panel10" class="tab_panel"><!--課題10-->
+        <h3>必修課題</h3>
+        <details open class="kadai" id="kadai10-1">
+          <summary>課題10-1</summary>
+          <p>ポインタを使って配列の値を入れ替える関数
+            arrayswap()を作成せよ．当該関数は二つの配列とそれぞれの長さを受け，関数の中で配列の中身を交換する．配列の長さが違う場合，短い分だけ交換する．main関数ではarrayswap関数を呼び出してint型の配列u=[1,2,3],v=[4,5,6,7]の中身を交換するプログラムも作成せよ．交換前と交換後の結果もそれぞれを示せ．
+          </p>
+          <button onclick="answer_o('10_1')" class="open_button">解答例</button>
+          <div id="answer10_1" class="none_display">
+            <pre class="language-c line-numbers code_pre"><code>
+              #include &lt;stdio.h&gt;
+
+              void arrayswap(int *array1, int *array2, int length1, int length2);
+              
+              int main(void){
+                  int u[] = {1, 2, 3};
+                  int v[] = {4, 5, 6, 7};
+              
+                  // 配列を交換前に出力
+                  printf(&quot;交換前:\nu = {%d, %d, %d}\n&quot;, u[0], u[1], u[2]);
+                  printf(&quot;v = {%d, %d, %d, %d}\n&quot;, v[0], v[1], v[2], v[3]);
+                  
+                  arrayswap(u, v, 3, 4);
+              
+                  // 配列を交換後に出力
+                  printf(&quot;交換前:\nu = {%d, %d, %d}\n&quot;, u[0], u[1], u[2]);
+                  printf(&quot;v = {%d, %d, %d, %d}\n&quot;, v[0], v[1], v[2], v[3]);
+                  return 0;
+              }
+              
+              void arrayswap(int *array1, int *array2, int length1, int length2){
+                  // 2つの配列のうち短い方を決定する
+                  int minLength;
+                  if (length1 &gt;= length2){
+                      minLength = length2;
+                  }else{
+                      minLength = length1;
+                  }
+              
+                  // 配列の中身を入れ替える
+                  for (int i = 0; i &lt; minLength; i++){
+                      int temp = *(array1 + i);
+                      *(array1 + i) = *(array2 + i);
+                      *(array2 + i) = temp;
+                  }
+              }
+              
+            </code></pre>
+          </div>
+        </details>
+        <details open class="kadai" id="kadai10-2">
+          <summary>課題10-2</summary>
+          <p>各“one”, “two”, “three”, “four”, “five”, “six”, “seven”, “eight”, “nine”,
+            “ten”単語を文字列として定義し，文字列を差すポインタに構成されたポインタ配列に格納せよ．また、繰り返し構造を使って下記の出力例に示されたように3組で順番的に出力せよ．</p>
+          <p class="sage">
+            one, two, three,<br>
+            four, five, six,<br>
+            seven, eight, nine,<br>
+            ten<br>
+          </p>
+          <button onclick="answer_o('10_2')" class="open_button">解答例</button>
+          <div id="answer10_2" class="none_display">
+            <pre class="language-c line-numbers code_pre"><code>
+              #include &lt;stdio.h&gt;
+
+              int main(void) {
+                  // 文字列の定義
+                  char *numbers[] = {&quot;one&quot;, &quot;two&quot;, &quot;three&quot;, &quot;four&quot;, &quot;five&quot;, &quot;six&quot;, &quot;seven&quot;, &quot;eight&quot;, &quot;nine&quot;, &quot;ten&quot;};
+              
+                  // 繰り返し構造を使って3組で順番的に出力
+                  for (int i = 0; i &lt; 10; i++) {
+                      printf(&quot;%s &quot;, *(numbers+i));
+                      if((i%3) == 2){
+                          printf(&quot;\n&quot;);
+                      }
+                  }
+                  return 0;
+              }
+              
+            </code></pre>
+          </div>
+        </details>
+        <hr>
+        <h3>力試し課題</h3>
+        <details open class="kadai" id="kadai10-3">
+          <summary>課題10-3</summary>
+          <p>
+            課題2を引き続き，ポインタ配列に格納された各文字列の先頭文字のASCII値の順番で並べよ．先頭文字が同じ場合，後ろの文字も比較せよ．
+          </p>
+          <button onclick="answer_o('10_3')" class="open_button">解答例</button>
+          <div id="answer10_3" class="none_display">
+            <pre class="language-c line-numbers code_pre"><code>
+              #include &lt;stdio.h&gt;
+
+              void sortArray(char **array, int n);
+              
+              int main(void){
+                  // 文字列を定義
+                  char *numbers[] = {&quot;one&quot;, &quot;two&quot;, &quot;three&quot;, &quot;four&quot;, &quot;five&quot;, &quot;six&quot;, &quot;seven&quot;, &quot;eight&quot;, &quot;nine&quot;, &quot;ten&quot;};
+              
+                  // 文字列を並び替える
+                  sortArray(numbers, 10);
+              
+                  // 結果を出力
+                  for (int i = 0; i &lt; 10; i++){
+                      printf(&quot;%s &quot;, *(numbers+i));
+                      if((i%3) == 2){
+                          printf(&quot;\n&quot;);
+                      }
+                  }
+                  return 0;
+              }
+              
+              
+              // 文字列を並び替える関数
+              void sortArray(char **array, int n){
+                  for (int i = 0; i &lt; n-1; i++){ 
+                      int minIndex = i;
+                      for (int j = i + 1; j &lt; n; j++){
+                          if (*(*(array+j)) &lt; *(*(array+minIndex))){
+                              minIndex = j;
+                          }else if (*(*(array+j)) == *(*(array+minIndex))){
+                              if (*(*(array+j)+1) &lt; *(*(array+minIndex)+1))
+                                  minIndex = j;
+                          }
+                      }
+                      if (minIndex != i){
+                          char *temp = *(array+i);
+                          *(array+i) = *(array+minIndex);
+                          *(array+minIndex) = temp;
+                      }
+                  }
+              }
+            </code></pre>
+          </div>
+        </details>
+      </div>
+      <div id="panel11" class="tab_panel"><!--課題11-->
+        <h3>必修課題</h3>
+        <details open class="kadai" id="kadai11-1">
+          <summary>課題11-1: ファイルの入出力</summary>
+          <p>
+            以下のテキストファイル内の数値データ（実数）を読み込み，ファイル内の正の値と負の値をそれぞれ名前の異なるテキストファイルに書き出し，さらに正の値と負の値のデータ数を画面に出力するプログラムを作成しなさい．ただしプログラムは同じデータのフォーマットであればデータの個数の異なるテキストファイルも入力として扱えるよう汎用的なものとすること．<br>
+            入力ファイル：<a href="./Q1.txt" target="_blank">Q1.txt</a>
+          </p>
+          <button onclick="answer_o('11_1')" class="open_button">解答例</button>
+          <div id="answer11_1" class="none_display">
+            <pre class="language-c line-numbers code_pre"><code>
+              #include &lt;stdio.h&gt;
+
+              int main(void){
+                  // データ数をカウントする変数を宣言
+                  int pos_count = 0, neg_count = 0;
+                  double x;
+              
+                  // 入力用のテキストファイルを開く
+                  FILE *fp_in = fopen(&quot;Q1.txt&quot;, &quot;r&quot;);
+                  if (fp_in == NULL){
+                      printf(&quot;入力用のテキストファイルを開けませんでした。\n&quot;);
+                      return 1;
+                  }
+              
+                  // 正の値と負の値を出力するテキストファイルを開く
+                  FILE *fp_pos = fopen(&quot;positive.txt&quot;, &quot;w&quot;);
+                  FILE *fp_neg = fopen(&quot;negative.txt&quot;, &quot;w&quot;);
+                  
+                  // Q1.txtから実数を読みこみそれぞれのファイルに書き込む
+                  while (fscanf(fp_in, &quot;%lf&quot;, &amp;x) == 1){
+                      if (x &gt;= 0){
+                          fprintf(fp_pos, &quot;%f\n&quot;, x);
+                          pos_count++;
+                      }else if (x &lt; 0){
+                          fprintf(fp_neg, &quot;%f\n&quot;, x);
+                          neg_count++;
+                      }
+                  }
+              
+                  // テキストファイルを閉じる
+                  fclose(fp_in);
+                  fclose(fp_pos);
+                  fclose(fp_neg);
+              
+                  // 正の値と負の値のデータ数を画面に出力する
+                  printf(&quot;正の値のデータ数: %d\n&quot;, pos_count);
+                  printf(&quot;負の値のデータ数: %d\n&quot;, neg_count);
+              }
+            </code></pre>
+          </div>
+        </details>
+        <details open class="kadai" id="kadai11-2">
+          <summary>課題11-2: 連番のファイルの取り扱い</summary>
+          <p>
+            以下の圧縮ファイル(zip形式)内にある連番となっているテキストファイル内の数値データ（実数）を読み込み，それぞれのファイルについてその平均値，最大値，最小値をひとつのテキストファイルに書き出すプログラムを作成しなさい．ただし出力ファイルは平均値，最大値，最小値がそれぞれどの入力ファイルのものかわかるようなフォーマットとすること．<br>
+            入力ファイル：<a href="./Q2.zip" target="_blank">Q2.zip</a>
+          </p>
+          <button onclick="tips_o('11_2')" class="open_button">ヒント</button>
+          <button onclick="answer_o('11_2')" class="open_button">解答例</button>
+          <div id="hinto11_2" class="none_display">
+            <p>連番ファイルの名前のフォーマットが 01,02,03…となっていることに注意せよ．</p>
+          </div>
+          <div id="answer11_2" class="none_display">
+            <pre class="language-c line-numbers code_pre"><code>
+              #include &lt;stdio.h&gt;
+
+              int main(void){
+                  // 変数の定義
+                  char file_name[16];
+                  double x, sum = 0 ,max = 0, min = 0;
+                  int count = 0;
+              
+                  // 結果を出力するテキストファイルを開く
+                  FILE *fp_result = fopen(&quot;result.txt&quot;, &quot;w&quot;);
+                  if (fp_result == NULL) {
+                      printf(&quot;result.txtを開けませんでした。\n&quot;);
+                      return 1;
+                  }
+              
+              
+                  for (int i = 1; i &lt; 11 ; i++){
+                      // ファイル名を定義 %02dで2桁でゼロ詰めを
+                      sprintf(file_name, &quot;Q2/%02d.txt&quot;, i);
+              
+                      //入力用のテキストファイルを開く
+                      FILE *fp_in = fopen(file_name, &quot;r&quot;);
+                      if (fp_in == NULL) {
+                          printf(&quot;入力用のテキストファイルを開けませんでした。\n&quot;);
+                          return 1;
+                      }
+              
+                      // 入力ファイルから実数を読み込む
+                      while (fscanf(fp_in, &quot;%lf&quot;, &amp;x) == 1) {
+                          if(max &lt; x)
+                              max = x;
+                          if(min &gt; x)
+                              min = x;
+                          sum += x;
+                          count++;
+                      }
+                      //結果を出力用ファイルに出力する
+                      fprintf(fp_result, &quot;%02d.txt\n  平均  ：%f\n  最大値：%f\n  最小値：%f\n\n&quot;, i, sum/count, max, min);
+                      fclose(fp_in);
+                  }
+                  fclose(fp_result);
+                  printf(&quot;ファイルが正常に出力されました。&quot;);
+              }
+            </code></pre>
+          </div>
+        </details>
+        <hr>
+        <h3>力試し課題</h3>
+        <details open class="kadai" id="kadai11-3">
+          <summary>課題11-3: ファイルの読み込みと文字列の検索</summary>
+          <p>
+            キーボードから任意の文字列を読み込み，その文字列が以下の文章ファイルの何行目の何文字目（注：スペースも一文字とカウントする）に現れるかをすべて表示するプログラムを作成しなさい．ただし課題１と同様，入力される文章ファイルが異なっても扱えるような汎用的なプログラムにすること．<br>
+            入力ファイル：<a href="./Q3.txt" target="_blank">Q3.txt</a>
+          </p>
+          <button onclick="tips_o('11_3')" class="open_button">ヒント</button>
+          <button onclick="answer_o('11_3')" class="open_button">解答例</button>
+          <div id="hinto11_3" class="none_display">
+            <p>strlen，strstrといった関数を使用するとよい(stringライブラリが必要)．</p>
+          </div>
+          <div id="answer11_3" class="none_display">
+            <pre class="language-c line-numbers code_pre"><code>
+              #include &lt;stdio.h&gt;
+              #define SEARCH_LEMGTH 50
+              
+              int mygetline(char s[], int size);
+              
+              int main(void){
+                  // 検索する文字列の入力
+                  char search[SEARCH_LEMGTH];
+                  printf(&quot;検索したい文字列を入力してください。\n文字列：&quot;);
+                  int search_length = mygetline(search, SEARCH_LEMGTH);
+              
+                  // 検索するテキストファイルを開く
+                  FILE *fp_in = fopen(&quot;Q3.txt&quot;, &quot;r&quot;);
+                  if (fp_in == NULL){
+                      printf(&quot;入力用のテキストファイルを開けませんでした。\n&quot;);
+                      return 1;
+                  }
+              
+                  // テキストファイルから文字を読み込む
+                  int row = 1, textIdx=1, searchIdx = 0,  judge = 0;
+                  char c;
+              
+                  // 一文字ずつ読み込む
+                  while ((c = fgetc(fp_in)) != EOF) {
+                      // 調べる文字列と読み込んだ文字が同じか比較
+                      if(c == search[searchIdx]){
+                          // 一文字一致の場合
+                          if(searchIdx == search_length-1){
+                              // すべての文字が一致した場合
+                              printf(&quot;%d行目%d文字目\n&quot;, row, textIdx - search_length + 1);
+                              judge = 1;
+                          }
+                          searchIdx++;
+                      }else{
+                          searchIdx = 0;
+                      }
+                      
+                      // 改行を判定
+                      if(c == &#039;\n&#039;){
+                          row++;
+                          textIdx = 0;
+                      }
+                      textIdx++;
+                  }
+                  fclose(fp_in);
+                  if (judge == 0)
+                      printf(&quot;文字列が見つかりませんでした。&quot;);
+              }
+              
+              
+              int mygetline(char s[], int size){
+                  int c, i;
+                  for (i = 0; (c = getchar()) != EOF &amp;&amp; c != &#039;\n&#039; &amp;&amp; i &lt; size - 1; i++)
+                      s[i] = c;
+                  s[i] = &#039;\0&#039;;
+                  if (c == EOF &amp;&amp; i == 0)
+                      return -1;
+                  return i;
+              }
+            </code></pre>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+</body>
+<!--ここからcss-->
+
+<style>
+  /*ライトモード*/
+  .light-theme {
+    --main-text: #000;
+    --main-bg: #ffffff;
+    --details: #4d4d4d;
+    --main-body: #ffffff;
+    --tab-color: #b7b7b7;
+    --tab-bg: #f2f2f2;
+    --tab-border: #f2f2f2;
+    --tab-hocolor: #d5d5d5;
+    --tab-hobg: #f5f5f5;
+    --tab-hoborder: #f5f5f5;
+    --boxshadow: #0000002e;
+    --boxshadowhover: #00000064;
+    --main-red: #ff0000;
+    --url-nomal: #242ddc;
+    --url-hover: #4a69ff;
+    --url-h1hover: #616161;
+    --scroll-color: #00000047;
+    --overlay-bg: #00000070;
+    --btn-bg:#e9e9e9;
+    --btn-border:#8a8a8a;
+    --dark-svg:#000000;
+    --light-svg:#00000000;
+    --btn-shadow:#bdbdbd;
+    --btn-actshadow:#bebebe;
+  }
+
+  /*ダークモード*/
+  .dark-theme {
+    --main-text: #e0e0e0;
+    --main-bg: #121212;
+    --details: #e4e4e4;
+    --main-body: #050505;
+    --tab-color: #8c8c8c;
+    --tab-bg: #1f1f1f;
+    --tab-border: #1f1f1f;
+    --tab-hocolor: #7b7b7b;
+    --tab-hobg: #343434;
+    --tab-hoborder: #343434;
+    --boxshadow: #0000004b;
+    --boxshadowhover: #ffffff2f;
+    --main-red: #ff4444;
+    --url-nomal: #6574ff;
+    --url-hover: #8e99ff;
+    --url-h1hover: #b4b4b4;
+    --scroll-color: #ffffff3f;
+    --overlay-bg: #ffffff1d;
+    --btn-bg:#2f2f2f;
+    --btn-border:#c6c6c6;
+    --dark-svg:#00000000;
+    --light-svg:#ffffff;
+    --btn-shadow:#4a4a4a;
+    --btn-actshadow:#000000;
+  }
+
+  html {
+    overflow-y: scroll;
+  }
+
+  body {
+    font-family:"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+    font-weight:500;
+    color: var(--main-text);
+    background: var(--main-body);
+  }
+  
+  button, input, select, textarea {
+    font-family : inherit;
+  }
+
+  h1 {
+    font-weight: 700;
+    font-size: 34px;
+    margin-left: 10px;
+    user-select: none;
+  }
+
+  h3 {
+    font-weight: 500;
+    user-select: none;
+    margin-left: 2.5%;
+    margin-top: 20px;
+  }
+
+  p,
+  li,
+  ul {
+    margin: 7px 0px 7px 0px;
+  }
+
+  hr {
+    margin: 40px 3% 30px 3%;
+    border: solid 1px #818181;
+  }
+
+  small {
+    font-size: 0.8em;
+    font-weight: 700;
+  }
+
+  .span_red {
+    color: var(--main-red);
+  }
+  .span_bold{
+    /*ここ改善必要*/
+    font-weight: 900;
+  }
+
+
+  .modal_span {
+    cursor: pointer;
+    color: var(--url-nomal);
+    text-decoration: underline;
+    transition: color 0.2s ease-in-out;
+  }
+
+  .modal_span:hover {
+    color: var(--url-hover);
+  }
+
+  #notes {
+    border: 2px solid var(--details);
+    border-radius: 12px;
+    padding: .5em .5em 0;
+    margin-bottom: 25px;
+    margin-left: 1.5vw;
+    margin-right: 1.5vw;
+    background-color: var(--main-bg);
+    transition: max-height 0.3s;
+    overflow: hidden;
+    box-shadow: 0 3px 10px 0px var(--boxshadow);
+    user-select: none;
+  }
+
+  #notes[open] {
+    padding: .5em;
+  }
+
+  #notes summary {
+    font-weight: bold;
+    font-size: 20px;
+    margin: -.5em -.5em 0;
+    padding: .5em;
+    list-style: none;
+    cursor: pointer;
+    transition:background-color ease 0.2s;
+  }
+
+  #notes[open] summary {
+    border-bottom: 2px solid var(--details);
+    margin-bottom: .5em;
+  }
+
+  #notes summary:hover {
+    background-color: var(--btn-bg);
+  }
+
+  #notes summary::-webkit-details-marker {
+    display: none;
+  }
+
+  details.kadai summary {
+    font-weight: bold;
+    font-size: 20px;
+    margin: -.5em -.5em 0;
+    padding: .5em;
+    list-style: none;
+    user-select: none;
+    cursor: pointer;
+  }
+
+  details.kadai {
+    border: 2px solid var(--details);
+    border-radius: 10px;
+    padding: .5em .5em 0;
+    margin-bottom: 30px;
+    margin-left: 4%;
+    margin-right: 2%;
+    background-color: var(--main-bg);
+    box-shadow: 0 2px 5px 0 var(--boxshadow);
+  }
+
+  details.kadai[open] summary {
+    border-bottom: 2px solid var(--details);
+    margin-bottom: .5em;
+  }
+
+  details.hinto summary {
+    border-bottom: none !important;
+    font-size: 19px;
+    margin-bottom: 0px !important;
+    cursor: pointer;
+
+  }
+
+  summary {
+    cursor: pointer;
+  }
+
+  details.hinto[open] summary {
+    border-bottom: 2px solid var(--main-text) !important;
+  }
+
+  .sage {
+    margin-left: 1rem;
+    -size: 13px;
+  }
+
+  input[type="radio"] {
+    display: none;
+  }
+
+  .tab_area {
+    font-size: 0;
+    margin: 0 2%;
+    display: flex;
+  }
+
+  .tab_area label {
+    width: calc((100% - 32px) * 0.12);
+    margin: 0 calc((100% - 32px) * 0.0025);
+    display: inline-block;
+    padding: 12px 0;
+    color: var(--tab-color);
+    background: var(--tab-bg);
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color ease 0.3s;
+    border: solid var(--tab-border);
+    border-width: 2px 2px 0px 2px;
+    user-select: none;
+    border-radius: 8px 8px 0px 0px;
+  }
+
+  .tab_area label:hover {
+    color: var(--tab-hocolor);
+    background: var(--tab-hobg);
+    border: solid var(--tab-hoborder);
+    border-width: 2px 2px 0px 2px;
+  }
+
+  .tab_area>.label_osareta {
+    background: var(--main-bg);
+    color: var(--main-text);
+    border: solid var(--main-text);
+    border-width: 2px 2px 0px 2px;
+    box-shadow: 2px -2px 4px 0 var(--boxshadow);
+  }
+
+  .tab_area>.label_osareta:hover {
+    background: var(--main-bg);
+    color: var(--main-text);
+    border: solid var(--main-text);
+    border-width: 2px 2px 0px 2px;
+    box-shadow: 2px -2px 4px 0 var(--boxshadow);
+  }
+
+  .panel_area {
+    background: var(--main-bg);
+    border: 2px solid var(--main-text);
+    border-radius: 10px;
+    box-shadow: 2px 4px 10px 0 var(--boxshadow);
+    margin-left: 1.5vw;
+    margin-right: 1.5vw;
+    padding-top: 20px;
+  }
+
+  .tab_panel {
+    display: none;
+  }
+
+  #pulldown {
+    display: none;
+  }
+
+  th,
+  td {
+    border: solid 2px var(--main-text);
+  }
+  .container {
+    /* margin-inline: auto; */
+    overflow-x: auto; /* tableタグのはみ出た要素を隠す */
+    white-space: nowrap; /* テキストの折り返しなし */
+    width: 100%;
+  }
+  table {
+    border-collapse: collapse;
+    font-weight: 600;
+    color: var(--main-text);
+  }
+
+  td {
+    width: 60px;
+    height: 35px;
+    text-align: right;
+    padding-right:4px;
+  }
+
+  th.tate {
+    width: 120px;
+    height: 35px;
+  }
+
+  a {
+    color: var(--url-nomal);
+  }
+
+  a:hover {
+    color: var(--url-hover);
+  }
+
+  body {
+    margin: 0;
+    margin-bottom: 100px;
+  }
+
+  #btn-mode {
+    width: 30px;
+    height: 30px;
+    user-select: none;
+    border: solid 2px var(--main-text);
+    padding: 5px;
+    border-radius: 30%;
+    background-color: var(--main-body);
+    position: absolute; /* 要素の位置を固定する */
+    top: 30px;
+    right: 25px;
+    cursor: pointer;
+    transition:background-color ease 0.2s;
+  }
+  #btn-mode >  #dark_svg {
+    fill: var(--dark-svg);
+    transition:fill ease 0.3s;
+  }
+  #btn-mode >  #light_svg {
+    fill: var(--light-svg);
+    transition:fill ease 0.3s;
+  }
+
+  #btn-mode:hover {
+    background-color: var(--btn-bg);
+  }
+
+  img {
+    -webkit-user-drag: none;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #00000000;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--scroll-color);
+    border-radius: 5px 5px 5px 5px;
+  }
+
+  .open {
+    cursor: pointer;
+    color: var(--main-text);
+    transition: all 0.2s linear;
+  }
+
+  .open:hover {
+    color: var(--url-h1hover);
+    transition: all 0.2s linear;
+  }
+
+
+  #overlay {
+    display: none;
+    z-index: 100;
+    background-color: var(--overlay-bg);
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    /*animation: fadeOut 0.3s ease-in 0s forwards;*/
+    opacity: 0;
+    transition: all 0.4s linear;
+    /*backdrop-filter: blur(1px);
+    -webkit-backdrop-filter: blur(1px);*/
+  }
+
+  .window {
+    top: 50%;
+    left: 50%;
+    max-width: 80vw;
+    transform: translate(-50%, -50%);
+    background-color: var(--main-bg);
+    border-radius: 15px;
+    z-index: 200;
+    display: none;
+    position: fixed;
+    padding: 10px 10px 10px 10px;
+    box-shadow: 0px 5px 20px -2px #00000041;
+    opacity: 0;
+    transition: all 0.4s linear;
+  }
+
+  .window>div>.code-toolbar {
+    width: 100%;
+    overflow: auto;
+    max-height: 80vh;
+    /*user-select:contain !important;*/
+  }
+
+  .active {
+    opacity: 1 !important;
+  }
+
+  .text {
+    font-size: 18px;
+    margin: 0;
+    font-weight: bold;
+    padding: 0px;
+    user-select: none;
+  }
+
+
+
+  .none_display {
+    display: none;
+    opacity: 0;
+    transition: all 0.4s ease;
+  }
+
+  .none_display_only {
+    display: none;
+  }
+
+  .code_pre {
+    border-radius: 15px;
+    box-shadow: rgb(27 31 36 / 4%) 0px 1px 0px;
+  }
+
+  .open_button {
+    color:var(--main-text);
+    padding: 5px 0px;
+    font-size: 15px;
+    font-weight: 700;
+    width:64px;
+    background: var(--main-bg);
+    border: 1.5px solid var(--btn-border);
+    margin: 10px 20px 10px 0px;
+    border-radius: 8px;
+    box-shadow: 1px 3px 3px var(--btn-shadow); 
+    user-select: none;
+  }
+
+  .open_button:hover {
+    background: var(--btn-bg);
+    transition:background-color ease 0.2s;
+  }
+  .open_button:active {
+    box-shadow: inset 3px 3px 6px var(--btn-actshadow);
+  }
+
+  select {
+    /*プルダウン*/
+    width: 40%;
+    /*--各ブラウザのCSSを解除--*/
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 1em 0;
+    padding: .8em 1em;
+    font-size: 16px;
+    border-radius: 30px;
+    border: solid 2px #ccc;
+    background-image: url(../images/common/form-arrow.png);
+    /*--矢印の画像を指定--*/
+    background-repeat: no-repeat;
+    background-size: 18px 10px;
+    background-position: right 20px center;
+    background-color: #fff;
+  }
+
+  .check_btn {
+    cursor: pointer;
+    margin: 15px 10px 15px 10px;
+    display: inline-block;
+    user-select: none;
+  }
+
+  .check_btn input {
+    display: none;
+  }
+
+  .check_btn span {
+    width: 40px;
+    text-align: center;
+    color: var(--main-text);
+    padding: 7px 15px;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: serif;
+    background: var(--main-bg);
+    border: none;
+    border-radius: 50px;
+    box-shadow: 3px 3px 6px #bebebe,
+      -3px -3px 6px #f2f2f2;
+    display: block;
+  }
+
+  .check_btn input:checked+span {
+    box-shadow: inset 3px 3px 6px #bebebe,
+      inset -3px -3px 6px #ffffff;
+  }
+
+  .close_modal {
+    display: block;
+    position: fixed;
+    cursor: pointer;
+    right: 5px;
+    top: 5px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+
+  .close_modal::before,
+  .close_modal::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 3px;
+    /* 棒の幅（太さ） */
+    height: 22px;
+    /* 棒の高さ */
+    background: #333;
+    /* バツ印の色 */
+    border-radius: 2.5px;
+    /* 棒の四隅の丸み*/
+  }
+
+  .close_modal::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  .close_modal::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+
+  .close_modal:hover,.close_modal:active{
+    background-color: var(--btn-bg);
+    transition:backgroud-color ease 0.2s;
+  }
+  #svg_3_3{
+    margin-left:7%;
+    width:min(400px, 80%);
+    fill:var(--main-text);
+  }
+  .cls-2,.cls-3{
+   stroke: var(--main-text); 
+  }
+
+  @media screen and (max-width:550px) {
+
+    /*　画面サイズが550px以下の場合ここの記述が適用される　*/
+    .tab_area {
+      font-size: 0;
+      margin: 0 2%;
+      display: none;
+    }
+
+    h3 {
+      margin-left: 2.5%;
+      margin-top: 0px;
+      margin-bottom: 10px;
+    }
+
+    hr {
+      margin: 30px 3% 30px 3%;
+    }
+
+    details.kadai {
+      margin-left: 2%;
+      margin-right: 2%;
+    }
+
+    #pulldown {
+      display: block;
+    }
+  }
+</style>
+
+
+
+<!--ここからjavascript-->
+<script type="text/javascript">
+
+  //ページ読み込み時に実行
+  document.addEventListener('DOMContentLoaded', function () {
+    //開くタブの決定
+    let data = localStorage.getItem('number');
+    let mode = localStorage.getItem('mode');
+    if (data == null) {
+      document.getElementById('tab1_label').classList.add("label_osareta");
+      document.getElementById('panel1').style.display = "block";
+      localSt(1);
+    } else {
+      document.getElementById('tab' + data + "_label").classList.add("label_osareta");
+      document.getElementById('panel' + data).style.display = "block";
+      document.getElementById('select_pull').options[data - 1].selected = true;
+    }
+    //モードの決定
+    const btn = document.querySelector("#btn-mode");
+    if (mode == "dark") {
+      document.body.classList.add("dark-theme");      // ダークモード
+      btn.src = "./src/dark.png";
+    } else {
+      document.body.classList.add("light-theme");      // ライトモード
+    }
+  });
+
+
+  // タブが変更されたとき
+  function change_tab(number) {
+    let data = localStorage.getItem('number');
+    if (number != data) {
+      document.getElementById('tab' + number + "_label").classList.add("label_osareta");
+      document.getElementById('tab' + data + "_label").classList.remove("label_osareta");
+      document.getElementById('panel' + number).style.display = "block";
+      document.getElementById('panel' + data).style.display = "none";
+      localSt(number);
+    }
+  }
+  //localStrageの番号を変更する関数
+  function localSt(number) {
+    localStorage.setItem('number', number.toString());
+  }
+
+  //プルダウンが押されたとき
+  function change_pulldown() {
+    let number = document.querySelector('#select_pull').selectedIndex + 1;
+    change_tab(number);
+  }
+
+  //ショートカットキー
+  document.addEventListener('keypress', keypress_ivent);
+  function keypress_ivent(e) {
+    //最初に現在のタブを把握
+    var data_number = localStorage.getItem('number');
+    if ((e.key === 'd' || e.key === 'D') && e.shiftKey === true) {
+      let mode = localStorage.getItem('mode');
+      if (mode == "light") {
+        // ダークモード
+        document.body.classList.remove("light-theme");
+        document.body.classList.add("dark-theme");
+        localStorage.setItem('mode', 'dark');
+        btn.src = "./src/dark.png";
+      } else {
+        // ライトモード
+        document.body.classList.remove("dark-theme");
+        document.body.classList.add("light-theme");
+        localStorage.setItem('mode', 'light');
+        btn.src = "./src/light.png";
+      }
+    } else if (e.key >= 1 && e.key <= 9) {
+      change_tab(e.key);
+    } else if (e.key === '0') {
+      change_tab(10);
+    } else if (e.key === '-' || e.key === 'ー') {
+      change_tab(11);
+    } else if (e.key === 'q' || e.key === 'Q') {
+      var element = document.getElementById("kadai" + data_number + "-1");
+      element.open === true ? element.open = false : element.open = true;
+    } else if (e.key === 'w' || e.key === 'W') {
+      var element = document.getElementById("kadai" + data_number + "-2");
+      element.open === true ? element.open = false : element.open = true;
+    } else if (e.key === 'e' || e.key === 'E') {
+      var element = document.getElementById("kadai" + data_number + "-3");
+      element.open === true ? element.open = false : element.open = true;
+    } else if (e.key === 'r' || e.key === 'R') {
+      if (data_number == 8 || data_number == 9) {
+        var element = document.getElementById("kadai" + data_number + "-4");
+        element.open === true ? element.open = false : element.open = true;
+      }
+    }
+    return false;
+  }
+
+  // モーダルウィンドウを開く
+  function open_window(name) {
+      document.getElementById(name).style.display = "block";
+    document.getElementById('window').style.display = "block";
+    document.getElementById('overlay').style.display = "block";
+    document.documentElement.style.overflowY = 'hidden';
+
+    setTimeout((e) => {
+      document.getElementById('window').classList.toggle("active");
+      document.getElementById('overlay').classList.toggle("active");
+    }, 1);
+  }
+  // モーダルウィンドウを閉じる
+  function close_window() {
+    document.getElementById('window').classList.toggle("active");
+    document.getElementById('overlay').classList.toggle("active");
+    document.documentElement.style.overflowY = 'scroll';
+    setTimeout((e) => { //  0.5秒後にクラスactiveを削除
+      document.getElementById('window').style.display = "none";
+      document.getElementById('overlay').style.display = "none";
+      document.getElementById('mihon_c').style.display = "none";
+      document.getElementById('ex7_3_c').style.display = "none";
+    }, 401);
+  }
+
+
+
+  // ヒントを開く
+  function tips_o(number) {
+    const hinto = document.getElementById('hinto' + number);
+    if (hinto.style.display === "block") {
+      hinto.classList.remove("active");
+      setTimeout((e) => {
+        hinto.style.display = "none";
+      }, 200);
+    } else {
+      hinto.style.display = "block";
+      setTimeout((e) => {
+        hinto.classList.add("active");
+      }, 1);
+    }
+  }
+  // 解答例を開く
+  function answer_o(number) {
+    const answer = document.getElementById('answer' + number);
+    if (answer.style.display === "block") {
+      answer.classList.remove("active");
+      setTimeout((e) => {
+        answer.style.display = "none";
+      }, 200);
+    } else {
+      answer.style.display = "block";
+      setTimeout((e) => {
+        answer.classList.add("active");
+      }, 1);
+    }
+  }
+
+
+
+
+  // チェックボックスの取得
+  const btn = document.querySelector("#btn-mode");
+  // チェックした時の挙動
+  btn.addEventListener("click", () => {
+    let mode = localStorage.getItem('mode');
+    if (mode == "light") {
+      // ダークモード
+      document.body.classList.remove("light-theme");
+      document.body.classList.add("dark-theme");
+      localStorage.setItem('mode', 'dark');
+      btn.src = "./src/dark.png";
+    } else {
+      // ライトモード
+      document.body.classList.remove("dark-theme");
+      document.body.classList.add("light-theme");
+      localStorage.setItem('mode', 'light');
+      btn.src = "./src/light.png";
+    }
+  });
+
+
+
+
+
+
+
+
+
+  document.querySelectorAll(".open").forEach(function (target) {
+    target.addEventListener('click', function () {
+      document.getElementById('overlay').style.display = "block";
+    });
+
+  });
+
+  if (window.matchMedia('(prefers-color-scheme: dark)').matches == true) {
+    //dark mode
+
+  }
+
+
+  [].forEach.call(document.querySelectorAll('code'), function ($code) {
+    var lines = $code.textContent.split('\n');
+
+    if (lines[0] === '') {
+      lines.shift()
+    }
+
+    var matches;
+    var indentation = (matches = /^[\s\t]+/.exec(lines[0])) !== null ? matches[0] : null;
+    if (!!indentation) {
+      lines = lines.map(function (line) {
+        line = line.replace(indentation, '')
+        return line.replace(/\t/g, '    ')
+      });
+
+      $code.textContent = lines.join('\n').trim();
+    }
+  });
+
+  //全選択ボタンを作成＆クラス名付与
+  Prism.plugins.toolbar.registerButton("select-code", function (env) {
+    var newButton = document.createElement("button");
+    // newButton.className = "code-select-btn";
+
+    newButton.addEventListener("click", function () {
+      var range = document.createRange();
+      range.selectNodeContents(env.element);
+      navigator.clipboard.writeText(range.toString()); // ★ テキストをクリップボードに書き込み（＝コピー）
+      newButton.style.backgroundColor = "#fffff"; // ボタンの文字変更
+      //setTimeout(() => (btn.innerHTML = "COPY!"), 1000); // ボタンの文字を戻す
+    });
+    return newButton;
+  });
+</script>
+
+</html>
